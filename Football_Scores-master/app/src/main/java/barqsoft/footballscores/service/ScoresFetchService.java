@@ -25,6 +25,7 @@ import java.util.Vector;
 import barqsoft.footballscores.BuildConfig;
 import barqsoft.footballscores.data.DatabaseContract;
 import barqsoft.footballscores.R;
+import timber.log.Timber;
 
 /**
  * Created by yehya khaled on 3/2/2015.
@@ -40,6 +41,7 @@ public class ScoresFetchService extends IntentService
 
     protected void onHandleIntent(Intent intent)
     {
+        Log.e(TAG,"onHandleIntent() Inside");
         getData("n7");
         getData("p7" +
                 "");
@@ -56,18 +58,19 @@ public class ScoresFetchService extends IntentService
 
         Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
                 appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
-        Log.v(TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
+        Log.e(TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
         HttpURLConnection m_connection = null;
         BufferedReader reader = null;
         String JSON_data = null;
         //Opening Connection
         try {
             URL fetch = new URL(fetch_build.toString());
+            Log.e(TAG,"Get fetch URL " + fetch.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
             m_connection.addRequestProperty("X-Auth-Token", API_KEY);
             m_connection.connect();
-
+            Log.e(TAG,"!!!!!Connection: " + m_connection.toString());
             // Read the input stream into a String
             InputStream inputStream = m_connection.getInputStream();
             StringBuffer buffer = new StringBuffer();
@@ -122,8 +125,8 @@ public class ScoresFetchService extends IntentService
                     processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
                     return;
                 }
-
-                Log.e(TAG,"JSON_data: " + JSON_data);
+                Timber.e("JSON DATA!");
+                Log.e(TAG,"JSON Data: " + JSON_data);
                 processJSONdata(JSON_data, getApplicationContext(), true);
             } else {
                 //Could not Connect

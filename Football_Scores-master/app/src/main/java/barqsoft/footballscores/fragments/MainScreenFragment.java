@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import barqsoft.footballscores.R;
 import barqsoft.footballscores.adapters.ScoresAdapter;
 import barqsoft.footballscores.models.ViewHolder;
 import barqsoft.footballscores.service.ScoresFetchService;
+import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -36,6 +38,9 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     private void update_scores()
     {
+        Timber.e("update_scores() Inside ");
+        Log.e("Fuck you","Inside update_scores");
+
         Intent service_start = new Intent(getActivity(), ScoresFetchService.class);
         getActivity().startService(service_start);
     }
