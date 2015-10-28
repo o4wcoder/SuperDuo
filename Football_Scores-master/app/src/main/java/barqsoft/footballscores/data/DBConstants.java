@@ -5,6 +5,16 @@ package barqsoft.footballscores.data;
  */
 public interface DBConstants {
 
-    public static final String FOOTBALL_BASE_URL = "http://api.football-data.org/alpha/";
-    public static final String FOOTBALL_HEADER_KEY = "X-Auth-Token";
+    String FIXTURES = "fixtures";
+    String LINKS = "_links";
+    String SOCCER_SEASON = "soccerseason";
+    String LEAGUE = "href";
+    String MATCH_ID = "self";
+    String MATCH_DATE = "date";
+    String HOME_TEAM = "homeTeamName";
+    String AWAY_TEAM = "awayTeamName";
+    String RESULT = "result";
+    String HOME_GOALS = "goalsHomeTeam";
+    String AWAY_GOALS = "goalsAwayTeam";
+    String MATCH_DAY = "matchday";
 }

@@ -19,12 +19,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.Vector;
 
 import barqsoft.footballscores.BuildConfig;
 import barqsoft.footballscores.data.DatabaseContract;
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.models.Fixture;
+import barqsoft.footballscores.web.DataManager;
 import timber.log.Timber;
 
 /**
@@ -41,10 +44,17 @@ public class ScoresFetchService extends IntentService
 
     protected void onHandleIntent(Intent intent)
     {
-        Log.e(TAG,"onHandleIntent() Inside");
-        getData("n7");
-        getData("p7" +
-                "");
+        Log.e(TAG, "onHandleIntent() Inside");
+       getData("n7");
+        //getData("p7" +
+        //        "");
+//        DataManager dataManager = DataManager.get(this);
+//        List<Fixture> fixtureList = dataManager.fetchFixtures();
+//        if(fixtureList != null) {
+//            Log.e(TAG, "FixtureList size: " + fixtureList.size());
+//            Log.e(TAG,"HomeTeam " + fixtureList.get(0).getmHomeTeam());
+//            Log.e(TAG,"AwayTeam " + fixtureList.get(0).getmAwayTeam());
+//        }
 
         return;
     }
@@ -244,17 +254,17 @@ public class ScoresFetchService extends IntentService
                     Away_goals = match_data.getJSONObject(RESULT).getString(AWAY_GOALS);
                     match_day = match_data.getString(MATCH_DAY);
                     ContentValues match_values = new ContentValues();
-                    match_values.put(DatabaseContract.scores_table.MATCH_ID,match_id);
-                    match_values.put(DatabaseContract.scores_table.DATE_COL,mDate);
-                    match_values.put(DatabaseContract.scores_table.TIME_COL,mTime);
-                    match_values.put(DatabaseContract.scores_table.HOME_COL,Home);
-                    match_values.put(DatabaseContract.scores_table.AWAY_COL,Away);
-                    match_values.put(DatabaseContract.scores_table.HOME_GOALS_COL,Home_goals);
-                    match_values.put(DatabaseContract.scores_table.AWAY_GOALS_COL,Away_goals);
-                    match_values.put(DatabaseContract.scores_table.LEAGUE_COL,League);
-                    match_values.put(DatabaseContract.scores_table.MATCH_DAY,match_day);
+                    match_values.put(DatabaseContract.ScoresEntry.MATCH_ID,match_id);
+                    match_values.put(DatabaseContract.ScoresEntry.DATE_COL,mDate);
+                    match_values.put(DatabaseContract.ScoresEntry.TIME_COL,mTime);
+                    match_values.put(DatabaseContract.ScoresEntry.HOME_COL,Home);
+                    match_values.put(DatabaseContract.ScoresEntry.AWAY_COL,Away);
+                    match_values.put(DatabaseContract.ScoresEntry.HOME_GOALS_COL,Home_goals);
+                    match_values.put(DatabaseContract.ScoresEntry.AWAY_GOALS_COL,Away_goals);
+                    match_values.put(DatabaseContract.ScoresEntry.LEAGUE_COL,League);
+                    match_values.put(DatabaseContract.ScoresEntry.MATCH_DAY,match_day);
                     //log spam
-
+                    Log.v(TAG,League);
                     Log.v(TAG,match_id);
                     Log.v(TAG,mDate);
                     Log.v(TAG,mTime);
