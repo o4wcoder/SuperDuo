@@ -19,11 +19,13 @@ import barqsoft.footballscores.models.Goals;
  */
 public class GoalsDeserializer implements JsonDeserializer<Goals> {
 
+    private static final String TAG = GoalsDeserializer.class.getSimpleName();
 
     public Goals deserialize(
             JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {
 
+        Log.e(TAG,"Goals json: " + json.toString());
         return new Gson().fromJson(json,Goals.class);
 
     }

@@ -10,6 +10,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.models.League;
 
 /**
@@ -23,7 +24,11 @@ public class LeagueDeserializer implements JsonDeserializer<League> {
             JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
 
-        Log.e(TAG, "League json: " + json.toString());
+
+        JsonElement jsonElement = json.getAsJsonObject().get(DBConstants.LEAGUE);
+        String strLeague = jsonElement.getAsString();
+        strLeague = strLeague.replace(DBConstants.SEASON_LINK,"");
+        Log.e(TAG,"LEAGUE: " + strLeague);
         return new Gson().fromJson(json,League.class);
 
     }

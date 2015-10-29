@@ -12,7 +12,7 @@ import barqsoft.footballscores.data.DatabaseContract;
  */
 public class Fixture implements DBConstants{
 
-    @SerializedName(DBConstants.LEAGUE)
+    @SerializedName(DBConstants.LINKS)
     private League mLeague;
 
     @SerializedName(DBConstants.MATCH_ID)

@@ -6,6 +6,7 @@ package barqsoft.footballscores.data;
 public interface DBConstants {
 
     String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
+    String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
     String FIXTURES = "fixtures";
     String LINKS = "_links";
     String LEAGUE = "soccerseason";
