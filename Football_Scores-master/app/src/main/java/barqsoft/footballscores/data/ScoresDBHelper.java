@@ -30,9 +30,9 @@ public class ScoresDBHelper extends SQLiteOpenHelper
                 + DatabaseContract.ScoresEntry.LEAGUE_COL + " INTEGER NOT NULL,"
                 + ScoresEntry.HOME_GOALS_COL + " TEXT NOT NULL,"
                 + ScoresEntry.AWAY_GOALS_COL + " TEXT NOT NULL,"
-                + ScoresEntry.MATCH_ID + " INTEGER NOT NULL,"
-                + ScoresEntry.MATCH_DAY + " INTEGER NOT NULL,"
-                + " UNIQUE ("+ ScoresEntry.MATCH_ID+") ON CONFLICT REPLACE"
+                + ScoresEntry.MATCH_ID_COL + " INTEGER NOT NULL,"
+                + ScoresEntry.MATCH_DAY_COL + " INTEGER NOT NULL,"
+                + " UNIQUE ("+ ScoresEntry.MATCH_ID_COL+") ON CONFLICT REPLACE"
                 + " );";
         db.execSQL(CreateScoresTable);
     }

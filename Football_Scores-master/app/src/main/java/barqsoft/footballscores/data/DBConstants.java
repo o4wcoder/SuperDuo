@@ -5,11 +5,12 @@ package barqsoft.footballscores.data;
  */
 public interface DBConstants {
 
+    String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
     String FIXTURES = "fixtures";
     String LINKS = "_links";
-    String SOCCER_SEASON = "soccerseason";
-    String LEAGUE = "href";
+    String LEAGUE = "soccerseason";
     String MATCH_ID = "self";
+    String HREF = "href";
     String MATCH_DATE = "date";
     String HOME_TEAM = "homeTeamName";
     String AWAY_TEAM = "awayTeamName";
