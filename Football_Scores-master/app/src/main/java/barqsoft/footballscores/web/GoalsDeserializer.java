@@ -25,7 +25,7 @@ public class GoalsDeserializer implements JsonDeserializer<Goals> {
             JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {
 
-        Log.e(TAG,"Goals json: " + json.toString());
+       // Log.e(TAG,"Goals json: " + json.toString());
         return new Gson().fromJson(json,Goals.class);
 
     }

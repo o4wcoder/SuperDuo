@@ -13,6 +13,8 @@ import barqsoft.footballscores.models.Fixture;
 import barqsoft.footballscores.models.FixtureSearchResponse;
 import barqsoft.footballscores.models.Goals;
 import barqsoft.footballscores.models.League;
+import barqsoft.footballscores.models.Links;
+import barqsoft.footballscores.models.MatchId;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -60,7 +62,7 @@ public class DataManager implements DBConstants {
         if (sDataManager == null) {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Goals.class,new GoalsDeserializer())
-                    .registerTypeAdapter(League.class,new LeagueDeserializer())
+                    .registerTypeAdapter(Links.class,new LinksDeserializer())
                     .create();
 
             RestAdapter basicRestAdapter = new RestAdapter.Builder()
