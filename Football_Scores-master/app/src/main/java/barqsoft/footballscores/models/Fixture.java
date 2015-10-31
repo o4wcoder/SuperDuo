@@ -65,8 +65,8 @@ public class Fixture implements DBConstants{
         cv.put(DatabaseContract.ScoresEntry.AWAY_GOALS_COL,mGoals.getAwayGoals());
         cv.put(DatabaseContract.ScoresEntry.MATCH_DAY_COL,mMatchDay);
         cv.put(DatabaseContract.ScoresEntry.TIME_COL,getTime());
-        cv.put(DatabaseContract.ScoresEntry.MATCH_ID_COL,mLinks.getMatchId().getMatchId());
-        cv.put(DatabaseContract.ScoresEntry.LEAGUE_COL,mLinks.getLeague().getLeague());
+        cv.put(DatabaseContract.ScoresEntry.MATCH_ID_COL,getMatchId());
+        cv.put(DatabaseContract.ScoresEntry.LEAGUE_COL,getLeague());
 
         return cv;
     }
@@ -84,6 +84,14 @@ public class Fixture implements DBConstants{
 
     public String getAwayTeam() {
         return mAwayTeam;
+    }
+
+    public String getLeague() {
+        return mLinks.getLeague().getLeague();
+    }
+
+    public String getMatchId() {
+        return mLinks.getMatchId().getMatchId();
     }
 
     public String getTime() {

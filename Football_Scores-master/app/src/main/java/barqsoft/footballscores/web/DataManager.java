@@ -88,12 +88,6 @@ public class DataManager implements DBConstants {
         }
     };
 
-//    public Fixture fetchFootballScores() {
-//        ScoresInterface scoresInterface = mBasicRestAdapter.create(ScoresInterface.class);
-//
-//        return scoresInterface.getFixtures();
-//
-//    }
 
     public List<Fixture> fetchFixtures() {
 

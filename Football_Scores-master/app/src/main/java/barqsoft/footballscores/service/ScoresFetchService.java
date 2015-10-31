@@ -4,7 +4,9 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -24,16 +26,18 @@ import java.util.TimeZone;
 import java.util.Vector;
 
 import barqsoft.footballscores.BuildConfig;
+import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.data.DatabaseContract;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.models.Fixture;
 import barqsoft.footballscores.web.DataManager;
+import retrofit.RetrofitError;
 import timber.log.Timber;
 
 /**
  * Created by yehya khaled on 3/2/2015.
  */
-public class ScoresFetchService extends IntentService
+public class ScoresFetchService extends IntentService implements DBConstants
 {
     public static final String TAG = "ScoresFetchService";
     public ScoresFetchService()
@@ -48,8 +52,16 @@ public class ScoresFetchService extends IntentService
         //getData("p7" +
         //        "");
         DataManager dataManager = DataManager.get(this);
-        List<Fixture> fixtureList = dataManager.fetchFixtures();
-        ContentValues[] values = new ContentValues[fixtureList.size()];
+        List<Fixture> fixtureList = null;
+        try {
+            fixtureList = dataManager.fetchFixtures();
+        } catch (RetrofitError e ) {
+
+            Log.e(TAG,"------- Got retrofit error --------");
+            Log.e(TAG,e.getMessage());
+
+            return;
+        }
 
         Log.e(TAG, "FixtureList size: " + fixtureList.size());
         Vector<ContentValues> vectorValues = new Vector<>(fixtureList.size());
@@ -57,14 +69,27 @@ public class ScoresFetchService extends IntentService
             for (Fixture fixture : fixtureList) {
 
                 if (fixture != null) {
-                    Log.e(TAG,"Getting content values");
-                    Log.e(TAG,fixture.toString());
-                    vectorValues.add(fixture.getContentValues());
+                  //  Log.e(TAG, "Getting content values");
+                   // Log.e(TAG, fixture.toString());
+
+                    //This if statement controls which leagues we're interested in the data from.
+                    //add leagues here in order to have them be added to the DB.
+                    // If you are finding no data in the app, check that this contains all the leagues.
+                    // If it doesn't, that can cause an empty DB, bypassing the dummy data routine.
+                    if (fixture.getLeague().equals(DBConstants.PREMIER_LEAGUE) ||
+                            fixture.getLeague().equals(DBConstants.SERIE_A) ||
+                            fixture.getLeague().equals(DBConstants.BUNDESLIGA1) ||
+                            fixture.getLeague().equals(DBConstants.BUNDESLIGA2) ||
+                            fixture.getLeague().equals(DBConstants.PRIMERA_DIVISION)) {
+                     //   Log.e(TAG,"Adding fixture from league " + fixture.getLeague());
+                        vectorValues.add(fixture.getContentValues());
+                    }
                 }
             }
         }
 
         int inserted = 0;
+        ContentValues[] values = new ContentValues[vectorValues.size()];
         vectorValues.toArray(values);
         inserted = getApplicationContext().getContentResolver().bulkInsert(
                 DatabaseContract.BASE_CONTENT_URI,values);
@@ -73,6 +98,11 @@ public class ScoresFetchService extends IntentService
         return;
     }
 
+    public void setServerStatus(Context context, @ServerStatus int serverStatus) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.putInt(context.getString(R.string.pref_server_status_key),serverStatus);
+    }
 //    private void getData (String timeFrame)
 //    {
 //        //Creating fetch URL
