@@ -29,7 +29,9 @@
 
         <provider
             android:name=".data.ScoresProvider"
-            android:authorities="barqsoft.footballscores" />
+            android:authorities="barqsoft.footballscores"
+            android:exported="false"
+            android:syncable="true"/>
 
         <activity
             android:name=".activities.AboutActivity"
@@ -40,6 +42,33 @@
                 android:value=".activities.MainActivity" />
         </activity>
         <service android:name=".service.ScoresFetchService" />
+
+        <!-- SyncAdapter's dummy authentication service -->
+        <service android:name=".sync.AuthenticatorService" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <!-- The SyncAdapter service -->
+        <service
+            android:name=".sync.FootballSyncService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
     </application>
+
+
 
 </manifest>

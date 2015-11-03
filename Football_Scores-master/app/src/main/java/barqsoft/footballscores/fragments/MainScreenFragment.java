@@ -27,6 +27,9 @@ import timber.log.Timber;
  */
 public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
+
+    private final static String TAG = MainScreenFragment.class.getSimpleName();
+
     public ScoresAdapter mAdapter;
     public static final int SCORES_LOADER = 0;
     private String[] fragmentdate = new String[1];
@@ -36,14 +39,14 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     {
     }
 
-    private void update_scores()
-    {
-        Timber.e("update_scores() Inside ");
-        Log.e("Fuck you","Inside update_scores");
-
-        Intent service_start = new Intent(getActivity(), ScoresFetchService.class);
-        getActivity().startService(service_start);
-    }
+//    private void update_scores()
+//    {
+//        Timber.e("update_scores() Inside ");
+//        Log.e("Fuck you","Inside update_scores");
+//
+//        Intent service_start = new Intent(getActivity(), ScoresFetchService.class);
+//        getActivity().startService(service_start);
+//    }
     public void setFragmentDate(String date)
     {
         fragmentdate[0] = date;
@@ -51,7 +54,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
-        update_scores();
+        //update_scores();
+        Log.e(TAG,"MainScreenFragment onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
         mAdapter = new ScoresAdapter(getActivity(),null,0);

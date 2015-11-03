@@ -5,28 +5,37 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.util.List;
+import java.util.Vector;
 
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.data.DatabaseContract;
+import barqsoft.footballscores.models.Fixture;
+import barqsoft.footballscores.web.DataManager;
+import retrofit.RetrofitError;
 
 /**
  * Created by Chris Hare on 10/30/2015.
  */
 public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    public final String LOG_TAG = FootballSyncAdapter.class.getSimpleName();
-    // Interval at which to sync with the weather, in seconds.
+    public final String TAG = FootballSyncAdapter.class.getSimpleName();
+    // Interval at which to sync with the football api, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60 * 180;
+    public static final int SYNC_INTERVAL = 30; //* 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-    private static final String SYNC_ACCOUNT_TYPE = "footballscores.barqsoft";
+    DataManager sDataManager;
 
     public FootballSyncAdapter(Context context, boolean autoInitialize) {
         super(context,autoInitialize);
@@ -34,8 +43,62 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
 
+        Log.e(TAG,"on PerformSync()");
+        sDataManager = DataManager.get();
+
+        getFixtures("p3");
+        getFixtures("n3");
+
     }
 
+    private void getFixtures(String timeFrame) {
+
+        List<Fixture> fixtureList = null;
+        try {
+            fixtureList = sDataManager.fetchFixtures(timeFrame);
+        } catch (RetrofitError e ) {
+
+            Log.e(TAG, "------- Got retrofit error --------");
+            Log.e(TAG,e.getMessage());
+
+            return;
+        }
+
+        Log.e(TAG, "FixtureList size: " + fixtureList.size());
+        Vector<ContentValues> vectorValues = new Vector<>(fixtureList.size());
+        if(fixtureList != null) {
+            for (Fixture fixture : fixtureList) {
+
+                if (fixture != null) {
+                    //  Log.e(TAG, "Getting content values");
+                    // Log.e(TAG, fixture.toString());
+
+                    //This if statement controls which leagues we're interested in the data from.
+                    //add leagues here in order to have them be added to the DB.
+                    // If you are finding no data in the app, check that this contains all the leagues.
+                    // If it doesn't, that can cause an empty DB, bypassing the dummy data routine.
+//                    if (fixture.getLeague().equals(DBConstants.PREMIER_LEAGUE) ||
+//                            fixture.getLeague().equals(DBConstants.SERIE_A) ||
+//                            fixture.getLeague().equals(DBConstants.BUNDESLIGA1) ||
+//                            fixture.getLeague().equals(DBConstants.BUNDESLIGA2) ||
+//                            fixture.getLeague().equals(DBConstants.PRIMERA_DIVISION)) {
+                    //   Log.e(TAG,"Adding fixture from league " + fixture.getLeague());
+                    // Log.e(TAG,fixture.toString());
+                    vectorValues.add(fixture.getContentValues());
+                    //   }
+                }
+            }
+        }
+
+        int inserted = 0;
+        ContentValues[] values = new ContentValues[vectorValues.size()];
+        vectorValues.toArray(values);
+        inserted = getContext().getContentResolver().bulkInsert(
+                DatabaseContract.BASE_CONTENT_URI,values);
+
+
+        Log.e(TAG,"Succesfully Inserted : " + String.valueOf(inserted));
+    }
     /**
      * Helper method to schedule the sync adapter periodic execution
      */
@@ -82,7 +145,7 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // Create the account type and default account
         Account newAccount = new Account(
-                context.getString(R.string.app_name), SYNC_ACCOUNT_TYPE);
+                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password doesn't exist, the account doesn't exist
         if ( null == accountManager.getPassword(newAccount) ) {

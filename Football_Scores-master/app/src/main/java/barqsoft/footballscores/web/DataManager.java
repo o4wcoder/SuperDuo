@@ -31,33 +31,33 @@ public class DataManager implements DBConstants {
 
     private static final String FOOTBALL_BASE_URL = "http://api.football-data.org/alpha/";
     private static final String FOOTBALL_HEADER_KEY = "X-Auth-Token";
-    private static final String PARAM_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
 
-    private static final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
-    private static final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
-    private static final String FIXTURES = "fixtures";
-    private static final String LINKS = "_links";
-    private static final String SOCCER_SEASON = "soccerseason";
-    private static final String SELF = "self";
-    private static final String MATCH_DATE = "date";
-    private static final String HOME_TEAM = "homeTeamName";
-    private static final String AWAY_TEAM = "awayTeamName";
-    private static final String RESULT = "result";
-    private static final String HOME_GOALS = "goalsHomeTeam";
-    private static final String AWAY_GOALS = "goalsAwayTeam";
-    private static final String MATCH_DAY = "matchday";
 
-    private static final String TIME_FRAME = "n7";
+//    private static final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
+//    private static final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
+//    private static final String FIXTURES = "fixtures";
+//    private static final String LINKS = "_links";
+//    private static final String SOCCER_SEASON = "soccerseason";
+//    private static final String SELF = "self";
+//    private static final String MATCH_DATE = "date";
+//    private static final String HOME_TEAM = "homeTeamName";
+//    private static final String AWAY_TEAM = "awayTeamName";
+//    private static final String RESULT = "result";
+//    private static final String HOME_GOALS = "goalsHomeTeam";
+//    private static final String AWAY_GOALS = "goalsAwayTeam";
+//    private static final String MATCH_DAY = "matchday";
+
+    private static final String TIME_FRAME = "p7";
 
     private static DataManager sDataManager;
     private RestAdapter mBasicRestAdapter;
 
+
     /**
      * Static get method to ensure only one instance of the DataManger gets created
-     * @param context Context of calling activity
      * @return        Static reference to the DataManager
      */
-    public static DataManager get(Context context) {
+    public static DataManager get() {
 
         if (sDataManager == null) {
             Gson gson = new GsonBuilder()
@@ -84,15 +84,15 @@ public class DataManager implements DBConstants {
         @Override
         public void intercept(RequestFacade request) {
            request.addHeader(FOOTBALL_HEADER_KEY, BuildConfig.API_KEY);
-           request.addQueryParam(PARAM_TIME_FRAME,TIME_FRAME);
+         //  request.addQueryParam(PARAM_TIME_FRAME,TIME_FRAME);
         }
     };
 
 
-    public List<Fixture> fetchFixtures() {
+    public List<Fixture> fetchFixtures(String timeFrame) {
 
         FixtureInterface fixtureInterface = mBasicRestAdapter.create(FixtureInterface.class);
-        FixtureSearchResponse response = fixtureInterface.searchFixtures();
+        FixtureSearchResponse response = fixtureInterface.searchFixtures(timeFrame);
         return response.getFixtureList();
     }
 }

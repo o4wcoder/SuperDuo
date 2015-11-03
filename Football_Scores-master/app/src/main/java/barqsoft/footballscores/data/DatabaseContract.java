@@ -10,6 +10,12 @@ import android.provider.BaseColumns;
 public class DatabaseContract
 {
     public static final String SCORES_TABLE = "ScoresEntry";
+
+    //URI data
+    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
+    public static final String PATH = "scores";
+    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
     public static final class ScoresEntry implements BaseColumns
     {
         //Table data
@@ -45,8 +51,5 @@ public class DatabaseContract
             return BASE_CONTENT_URI.buildUpon().appendPath("date").build();
         }
     }
-    //URI data
-    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
-    public static final String PATH = "scores";
-    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
 }

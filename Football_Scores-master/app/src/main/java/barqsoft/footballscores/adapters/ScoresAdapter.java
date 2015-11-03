@@ -45,13 +45,14 @@ public class ScoresAdapter extends CursorAdapter
         View mItem = LayoutInflater.from(context).inflate(R.layout.scores_list_item, parent, false);
         ViewHolder mHolder = new ViewHolder(mItem);
         mItem.setTag(mHolder);
-        Log.v(TAG, "new View inflated");
+        Log.e(TAG, "new View inflated");
         return mItem;
     }
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor)
     {
+        Log.e(TAG,"In bindView()");
         final ViewHolder mHolder = (ViewHolder) view.getTag();
         mHolder.home_name.setText(cursor.getString(COL_HOME));
         mHolder.away_name.setText(cursor.getString(COL_AWAY));
@@ -63,8 +64,9 @@ public class ScoresAdapter extends CursorAdapter
         mHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(
                 cursor.getString(COL_AWAY)
         ));
-        Log.v(TAG, mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() + " id " + String.valueOf(mHolder.match_id));
-        Log.v(TAG, String.valueOf(detail_match_id));
+        Log.e(TAG,"Score: " + cursor.getInt(COL_HOME_GOALS) + " - " + cursor.getInt(COL_AWAY_GOALS));
+        Log.e(TAG, mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() + " id " + String.valueOf(mHolder.match_id));
+        Log.e(TAG, String.valueOf(detail_match_id));
         LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.detail_fragment, null);
@@ -93,6 +95,7 @@ public class ScoresAdapter extends CursorAdapter
         }
         else
         {
+            Log.e(TAG,"Removing all views");
             container.removeAllViews();
         }
 
