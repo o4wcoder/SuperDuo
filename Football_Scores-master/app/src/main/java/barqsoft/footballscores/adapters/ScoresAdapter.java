@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.helpers.Utilies;
@@ -46,14 +49,32 @@ public class ScoresAdapter extends CursorAdapter
         ViewHolder mHolder = new ViewHolder(mItem);
         mItem.setTag(mHolder);
         Log.e(TAG, "new View inflated");
+
+
         return mItem;
     }
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor)
     {
-        Log.e(TAG,"In bindView()");
+        Log.e(TAG, "In bindView()");
         final ViewHolder mHolder = (ViewHolder) view.getTag();
+
+        mHolder.toolbar.setTitle("Scores Toolbar");
+
+        mHolder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Log.e(TAG, "Cicked Share");
+                context.startActivity(createShareForecastIntent(mHolder.home_name.getText()+" "
+                        +mHolder.score.getText()+" "+mHolder.away_name.getText() + " "));
+                return false;
+            }
+        });
+
+
+
         mHolder.home_name.setText(cursor.getString(COL_HOME));
         mHolder.away_name.setText(cursor.getString(COL_AWAY));
         mHolder.date.setText(cursor.getString(COL_MATCHTIME));

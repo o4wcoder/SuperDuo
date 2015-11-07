@@ -42,4 +42,8 @@
 
     <!-- Content Provider Defs -->
     <string name="content_authority" translatable = "flase">barqsoft.footballscores</string>
+
+    <!-- Actions -->
+    <string name="action_share">Share</string>
+
 </resources>

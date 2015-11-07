@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="toolbarStyle">@style/Toolbar</item>
+       <!-- <item name="toolbarStyle">@style/Toolbar</item>-->
     </style>
 
     <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
@@ -13,9 +13,13 @@
         <item name="popupTheme">@style/Theme.AppCompat.Light</item>
     </style>
 
+    <style name="ScoresToolbar.TextTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">10sp</item>
+    </style>
     <style name="PagerTabStripText">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
 
 </resources>
