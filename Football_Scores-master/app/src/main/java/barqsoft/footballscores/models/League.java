@@ -5,15 +5,25 @@ import com.google.gson.annotations.SerializedName;
 import barqsoft.footballscores.data.DBConstants;
 
 /**
- * Created by Chris Hare on 10/28/2015.
+ * Created by Chris Hare on 11/7/2015.
  */
 public class League {
 
-    @SerializedName(DBConstants.HREF)
-    private String mLeague;
+    @SerializedName(DBConstants.LINKS)
+    private SoccerSeasonLinks mSoccerSeasonLinks;
 
-    public String getLeague() {
-        return mLeague.replace(DBConstants.SEASON_LINK,"");
+    @SerializedName(DBConstants.LEAGUE_CAPTION)
+    String mCaption;
 
+    public String getCaption() {
+        return mCaption;
+    }
+
+    public SoccerSeasonLinks getLinks() {
+        return mSoccerSeasonLinks;
+    }
+
+    public String getLeagueId() {
+        return mSoccerSeasonLinks.getLeagueLink().getLeagueId();
     }
 }

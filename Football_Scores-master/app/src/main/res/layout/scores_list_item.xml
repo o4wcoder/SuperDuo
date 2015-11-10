@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:titleTextAppearance="@style/ScoresToolbar.TextTitle"
-            app:theme="@style/Theme.AppCompat.Light"/>
+            app:theme="@style/ThemeOverlay.AppCompat.Light"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

@@ -78,11 +78,11 @@ public class ScoresFetchService extends IntentService implements DBConstants
                     //add leagues here in order to have them be added to the DB.
                     // If you are finding no data in the app, check that this contains all the leagues.
                     // If it doesn't, that can cause an empty DB, bypassing the dummy data routine.
-                    if (fixture.getLeague().equals(DBConstants.PREMIER_LEAGUE) ||
-                            fixture.getLeague().equals(DBConstants.SERIE_A) ||
-                            fixture.getLeague().equals(DBConstants.BUNDESLIGA1) ||
-                            fixture.getLeague().equals(DBConstants.BUNDESLIGA2) ||
-                            fixture.getLeague().equals(DBConstants.PRIMERA_DIVISION)) {
+                    if (fixture.getLeagueId().equals(DBConstants.PREMIER_LEAGUE) ||
+                            fixture.getLeagueId().equals(DBConstants.SERIE_A) ||
+                            fixture.getLeagueId().equals(DBConstants.BUNDESLIGA1) ||
+                            fixture.getLeagueId().equals(DBConstants.BUNDESLIGA2) ||
+                            fixture.getLeagueId().equals(DBConstants.PRIMERA_DIVISION)) {
                      //   Log.e(TAG,"Adding fixture from league " + fixture.getLeague());
                         Log.e(TAG,fixture.toString());
                         vectorValues.add(fixture.getContentValues());

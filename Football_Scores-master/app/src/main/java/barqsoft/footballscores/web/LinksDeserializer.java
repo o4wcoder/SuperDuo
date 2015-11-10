@@ -1,7 +1,5 @@
 package barqsoft.footballscores.web;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -10,21 +8,21 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-import barqsoft.footballscores.models.Links;
+import barqsoft.footballscores.models.FixtureLinks;
 
 /**
  * Created by Chris Hare on 10/30/2015.
  */
-public class LinksDeserializer  implements JsonDeserializer<Links> {
+public class LinksDeserializer  implements JsonDeserializer<FixtureLinks> {
 
     private static final String TAG = LinksDeserializer.class.getSimpleName();
 
-    public Links deserialize(
+    public FixtureLinks deserialize(
             JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
 
-        Log.e(TAG, "Links json: " + json.toString());
-        return new Gson().fromJson(json,Links.class);
+       // Log.e(TAG, "FixtureLinks json: " + json.toString());
+        return new Gson().fromJson(json,FixtureLinks.class);
 
     }
 }

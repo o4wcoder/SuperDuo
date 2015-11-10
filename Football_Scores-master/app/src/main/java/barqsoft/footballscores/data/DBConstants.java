@@ -28,8 +28,8 @@ public interface DBConstants {
     String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
     String FIXTURES = "fixtures";
     String LINKS = "_links";
-    String LEAGUE = "soccerseason";
-    String MATCH_ID = "self";
+    String SOCCERSEASON = "soccerseason";
+    String SELF = "self";
     String HREF = "href";
     String MATCH_DATE = "date";
     String HOME_TEAM = "homeTeamName";
@@ -38,6 +38,10 @@ public interface DBConstants {
     String HOME_GOALS = "goalsHomeTeam";
     String AWAY_GOALS = "goalsAwayTeam";
     String MATCH_DAY = "matchday";
+    String LEAGUE_TABLE = "LeagueTable";
+
+    //League Constants
+    String LEAGUE_CAPTION = "caption";
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({SERVER_OK, SERVER_DOWN, SERVER_UNKNOWN})

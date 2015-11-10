@@ -20,7 +20,7 @@ public class Fixture implements DBConstants{
     private static final String TAG = Fixture.class.getSimpleName();
 
     @SerializedName(DBConstants.LINKS)
-    private Links mLinks;
+    private FixtureLinks mFixtureLinks;
 
     @SerializedName(DBConstants.MATCH_DATE)
     private String mMatchDate;
@@ -38,14 +38,17 @@ public class Fixture implements DBConstants{
     private Goals mGoals;
 
     private String mTime;
-    
+
+    private League mLeague;
 
     @Override
     public String toString() {
 
         return  "\n" +
-                "League:     " + mLinks.getLeague().getLeague() + "\n" +
-                "Match ID:   " + mLinks.getMatchId().getMatchId() + "\n" +
+                "LeagueLink: " + mFixtureLinks.getLeagueLink().getLeagueLink() + "\n" +
+                "LeagueId:   " + mFixtureLinks.getLeagueLink().getLeagueId() + "\n" +
+                "LeagueName: " + mLeague.getCaption() + "\n" +
+                "Match ID:   " + mFixtureLinks.getMatchId().getMatchId() + "\n" +
                 "Match Date: " + getMatchDate() + "\n" +
                 "Home Team:  " + mHomeTeam + "\n" +
                 "Away Team:  " + mAwayTeam + "\n" +
@@ -66,7 +69,8 @@ public class Fixture implements DBConstants{
         cv.put(DatabaseContract.ScoresEntry.MATCH_DAY_COL,mMatchDay);
         cv.put(DatabaseContract.ScoresEntry.TIME_COL,getTime());
         cv.put(DatabaseContract.ScoresEntry.MATCH_ID_COL,getMatchId());
-        cv.put(DatabaseContract.ScoresEntry.LEAGUE_COL,getLeague());
+        cv.put(DatabaseContract.ScoresEntry.LEAGUE_COL,getLeagueId());
+        cv.put(DatabaseContract.ScoresEntry.LEAGUE_NAME_COL,mLeague.getCaption());
 
         return cv;
     }
@@ -86,12 +90,20 @@ public class Fixture implements DBConstants{
         return mAwayTeam;
     }
 
-    public String getLeague() {
-        return mLinks.getLeague().getLeague();
+    public String getLeagueId() {
+        return mFixtureLinks.getLeagueLink().getLeagueId();
     }
 
     public String getMatchId() {
-        return mLinks.getMatchId().getMatchId();
+        return mFixtureLinks.getMatchId().getMatchId();
+    }
+
+    public League getLeague() {
+        return mLeague;
+    }
+
+    public void setLeague(League mLeague) {
+        this.mLeague = mLeague;
     }
 
     public String getTime() {

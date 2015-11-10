@@ -1,7 +1,5 @@
 package barqsoft.footballscores.web;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,11 +8,10 @@ import java.util.List;
 import barqsoft.footballscores.BuildConfig;
 import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.models.Fixture;
+import barqsoft.footballscores.models.FixtureLinks;
 import barqsoft.footballscores.models.FixtureSearchResponse;
 import barqsoft.footballscores.models.Goals;
 import barqsoft.footballscores.models.League;
-import barqsoft.footballscores.models.Links;
-import barqsoft.footballscores.models.MatchId;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -33,22 +30,6 @@ public class DataManager implements DBConstants {
     private static final String FOOTBALL_HEADER_KEY = "X-Auth-Token";
 
 
-//    private static final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
-//    private static final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
-//    private static final String FIXTURES = "fixtures";
-//    private static final String LINKS = "_links";
-//    private static final String SOCCER_SEASON = "soccerseason";
-//    private static final String SELF = "self";
-//    private static final String MATCH_DATE = "date";
-//    private static final String HOME_TEAM = "homeTeamName";
-//    private static final String AWAY_TEAM = "awayTeamName";
-//    private static final String RESULT = "result";
-//    private static final String HOME_GOALS = "goalsHomeTeam";
-//    private static final String AWAY_GOALS = "goalsAwayTeam";
-//    private static final String MATCH_DAY = "matchday";
-
-    private static final String TIME_FRAME = "p7";
-
     private static DataManager sDataManager;
     private RestAdapter mBasicRestAdapter;
 
@@ -62,7 +43,7 @@ public class DataManager implements DBConstants {
         if (sDataManager == null) {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Goals.class,new GoalsDeserializer())
-                    .registerTypeAdapter(Links.class,new LinksDeserializer())
+                    .registerTypeAdapter(FixtureLinks.class,new LinksDeserializer())
                     .create();
 
             RestAdapter basicRestAdapter = new RestAdapter.Builder()
@@ -94,5 +75,14 @@ public class DataManager implements DBConstants {
         FixtureInterface fixtureInterface = mBasicRestAdapter.create(FixtureInterface.class);
         FixtureSearchResponse response = fixtureInterface.searchFixtures(timeFrame);
         return response.getFixtureList();
+    }
+
+    public List<League> fetchLeagues() {
+
+        LeagueInterface leagueInterface = mBasicRestAdapter.create(LeagueInterface.class);
+
+        return leagueInterface.fetchLeagues();
+
+
     }
 }

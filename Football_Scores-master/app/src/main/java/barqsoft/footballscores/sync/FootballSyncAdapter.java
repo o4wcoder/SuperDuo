@@ -20,6 +20,7 @@ import barqsoft.footballscores.R;
 import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.data.DatabaseContract;
 import barqsoft.footballscores.models.Fixture;
+import barqsoft.footballscores.models.League;
 import barqsoft.footballscores.web.DataManager;
 import retrofit.RetrofitError;
 
@@ -31,11 +32,12 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String TAG = FootballSyncAdapter.class.getSimpleName();
     // Interval at which to sync with the football api, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 30; //* 180;
+    public static final int SYNC_INTERVAL = 30 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
     DataManager sDataManager;
+    List<League> mLeagueList = null;
 
     public FootballSyncAdapter(Context context, boolean autoInitialize) {
         super(context,autoInitialize);
@@ -46,14 +48,45 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
         Log.e(TAG,"on PerformSync()");
         sDataManager = DataManager.get();
 
+
+
+        //Go fetch the Leagues for this season
+        if(mLeagueList == null) {
+            try {
+                mLeagueList = sDataManager.fetchLeagues();
+                Log.e(TAG, "league list size: " + mLeagueList.size());
+
+
+            } catch (RetrofitError e) {
+                //ToDo: Need to handle 429 Too Many Requests
+                Log.e(TAG, "------- Got retrofit error in getting Leagues --------");
+                Log.e(TAG, e.getMessage());
+            }
+        }
+
         getFixtures("p3");
         getFixtures("n3");
 
     }
 
+    private void setLeagueName(Fixture fixture) {
+
+        if(mLeagueList != null) {
+            for (int i = 0; i < mLeagueList.size(); i++) {
+
+                if (mLeagueList.get(i).getLinks().getLeagueLink().getLeagueId().equals(fixture.getLeagueId())) {
+                    Log.e(TAG, "Found league match id " + fixture.getLeagueId());
+                    fixture.setLeague(mLeagueList.get(i));
+                }
+            }
+        }
+    }
     private void getFixtures(String timeFrame) {
 
         List<Fixture> fixtureList = null;
+
+
+
         try {
             fixtureList = sDataManager.fetchFixtures(timeFrame);
         } catch (RetrofitError e ) {
@@ -71,19 +104,11 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 if (fixture != null) {
                     //  Log.e(TAG, "Getting content values");
-                    // Log.e(TAG, fixture.toString());
 
-                    //This if statement controls which leagues we're interested in the data from.
-                    //add leagues here in order to have them be added to the DB.
-                    // If you are finding no data in the app, check that this contains all the leagues.
-                    // If it doesn't, that can cause an empty DB, bypassing the dummy data routine.
-//                    if (fixture.getLeague().equals(DBConstants.PREMIER_LEAGUE) ||
-//                            fixture.getLeague().equals(DBConstants.SERIE_A) ||
-//                            fixture.getLeague().equals(DBConstants.BUNDESLIGA1) ||
-//                            fixture.getLeague().equals(DBConstants.BUNDESLIGA2) ||
-//                            fixture.getLeague().equals(DBConstants.PRIMERA_DIVISION)) {
-                    //   Log.e(TAG,"Adding fixture from league " + fixture.getLeague());
-                    // Log.e(TAG,fixture.toString());
+
+                   //Set the league for each fixture;
+                   setLeagueName(fixture);
+                    Log.e(TAG, fixture.toString());
                     vectorValues.add(fixture.getContentValues());
                     //   }
                 }

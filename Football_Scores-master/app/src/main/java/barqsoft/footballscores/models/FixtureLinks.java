@@ -7,16 +7,16 @@ import barqsoft.footballscores.data.DBConstants;
 /**
  * Created by Chris Hare on 10/30/2015.
  */
-public class Links {
+public class FixtureLinks {
 
-    @SerializedName(DBConstants.LEAGUE)
-    League mLeague;
+    @SerializedName(DBConstants.SOCCERSEASON)
+    LeagueLink mLeagueLink;
 
-    @SerializedName(DBConstants.MATCH_ID)
+    @SerializedName(DBConstants.SELF)
     MatchId mMatchId;
 
-    public League getLeague() {
-        return mLeague;
+    public LeagueLink getLeagueLink() {
+        return mLeagueLink;
     }
 
     public MatchId getMatchId() {

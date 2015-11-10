@@ -17,11 +17,11 @@ public class Utilies
         switch (league_num)
         {
             case SERIE_A : return "Seria A";
-            case PREMIER_LEGAUE : return "Premier League";
-            case CHAMPIONS_LEAGUE : return "UEFA Champions League";
+            case PREMIER_LEGAUE : return "Premier LeagueLink";
+            case CHAMPIONS_LEAGUE : return "UEFA Champions LeagueLink";
             case PRIMERA_DIVISION : return "Primera Division";
             case BUNDESLIGA : return "Bundesliga";
-            default: return "Not known League Please report";
+            default: return "Not known LeagueLink Please report";
         }
     }
     public static String getMatchDay(int match_day,int league_num)

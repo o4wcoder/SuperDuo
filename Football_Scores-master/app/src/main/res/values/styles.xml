@@ -13,7 +13,7 @@
         <item name="popupTheme">@style/Theme.AppCompat.Light</item>
     </style>
 
-    <style name="ScoresToolbar.TextTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="ScoresToolbar.TextTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">10sp</item>
     </style>
     <style name="PagerTabStripText">
