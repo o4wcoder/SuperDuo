@@ -44,10 +44,11 @@ public interface DBConstants {
     String LEAGUE_CAPTION = "caption";
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({SERVER_OK, SERVER_DOWN, SERVER_UNKNOWN})
+    @IntDef({SERVER_OK, SERVER_DOWN, SERVER_INVALID, SERVER_UNKNOWN})
     public @interface ServerStatus {}
 
     int SERVER_OK = 0;
     int SERVER_DOWN = 1;
-    int SERVER_UNKNOWN = 2;
+    int SERVER_INVALID = 2;
+    int SERVER_UNKNOWN = 3;
 }

@@ -1,6 +1,13 @@
 package barqsoft.footballscores.helpers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
+
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.data.DBConstants;
 
 /**
  * Created by yehya khaled on 3/3/2015.
@@ -85,5 +92,38 @@ public class Utilies
             case "Stoke City FC" : return R.drawable.stoke_city;
             default: return R.drawable.no_icon;
         }
+    }
+
+    /**
+     * Returns true if the network is available or about to become available.
+     *
+     * @param c Context used to get the ConnectivityManager
+     * @return true if the network is available
+     */
+    static public boolean isNetworkAvailable(Context c) {
+        ConnectivityManager cm =
+                (ConnectivityManager)c.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    static public void setServerStatus(Context context,@DBConstants.ServerStatus int serverStatus) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putInt(context.getString(R.string.pref_server_status_key), serverStatus);
+    }
+    @SuppressWarnings("ResourceType")
+    static public @DBConstants.ServerStatus
+    int getServerStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getInt(context.getString(R.string.pref_server_status_key),DBConstants.SERVER_UNKNOWN);
+    }
+
+    static public void resetServerStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putInt(context.getString(R.string.pref_server_status_key),DBConstants.SERVER_UNKNOWN);
     }
 }

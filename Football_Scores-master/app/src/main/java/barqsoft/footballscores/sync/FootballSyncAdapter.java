@@ -19,6 +19,7 @@ import java.util.Vector;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.data.DatabaseContract;
+import barqsoft.footballscores.helpers.Utilies;
 import barqsoft.footballscores.models.Fixture;
 import barqsoft.footballscores.models.League;
 import barqsoft.footballscores.web.DataManager;
@@ -56,7 +57,7 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
                 mLeagueList = sDataManager.fetchLeagues();
                 Log.e(TAG, "league list size: " + mLeagueList.size());
 
-
+                Utilies.setServerStatus(getContext(),DBConstants.SERVER_OK);
             } catch (RetrofitError e) {
                 //ToDo: Need to handle 429 Too Many Requests
                 Log.e(TAG, "------- Got retrofit error in getting Leagues --------");
@@ -64,8 +65,10 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
 
-        getFixtures("p3");
-        getFixtures("n3");
+        if(Utilies.getServerStatus(getContext()) == DBConstants.SERVER_OK) {
+            getFixtures("p3");
+            getFixtures("n3");
+        }
 
     }
 

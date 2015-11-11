@@ -46,4 +46,12 @@
     <!-- Actions -->
     <string name="action_share">Share</string>
 
+    <!-- Empty Scores -->
+    <string name="empty_scores_list">No matches for this day</string>
+    <string name="empty_scores_list_no_network">No scores information avialable. The network is not available to fetch scores data.</string>
+    <string name="empty_scores_list_server_down">No scrores information available. The server is not returning data.</string>
+    <string name="empty_scores_list_server_error">No scores information available. The server is not returning valid data. Please check for an updated version.</string>
+
+    <!-- Shared Preferences -->
+    <string name="server_status_key" translatable="false">server-status</string>
 </resources>

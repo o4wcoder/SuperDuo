@@ -13,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.data.DatabaseContract;
 import barqsoft.footballscores.activities.MainActivity;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.adapters.ScoresAdapter;
+import barqsoft.footballscores.helpers.Utilies;
 import barqsoft.footballscores.models.ViewHolder;
 import barqsoft.footballscores.service.ScoresFetchService;
 import timber.log.Timber;
@@ -57,12 +60,13 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         //update_scores();
         Log.e(TAG,"MainScreenFragment onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
+        final ListView scoreList = (ListView) rootView.findViewById(R.id.scores_list);
+        scoreList.setEmptyView(rootView.findViewById(R.id.emptyScoresLayout));
         mAdapter = new ScoresAdapter(getActivity(),null,0);
-        score_list.setAdapter(mAdapter);
+        scoreList.setAdapter(mAdapter);
         getLoaderManager().initLoader(SCORES_LOADER,null,this);
         mAdapter.detail_match_id = MainActivity.selected_match_id;
-        score_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        scoreList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -95,7 +99,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
             cursor.moveToNext();
         }
         */
-
+        updateEmptyView();
         int i = 0;
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -115,4 +119,32 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     }
 
 
+    private void updateEmptyView() {
+
+        if(mAdapter.getCount() == 0) {
+            TextView emptyTextView = (TextView)getView().findViewById(R.id.emptyTextView);
+
+            if(emptyTextView != null){
+                //Cursor was empty. Get the Server Status
+                @DBConstants.ServerStatus int serverStatus = Utilies.getServerStatus(getActivity());
+                int message = R.string.empty_scores_list;
+                switch(serverStatus) {
+                    case DBConstants.SERVER_DOWN:
+                        message = R.string.empty_scores_list_server_down;
+                        break;
+                    case DBConstants.SERVER_INVALID:
+                        message = R.string.empty_scores_list_server_error;
+                        break;
+                    default:
+                        //Check if the network is even avialbale. If it is then we just
+                        //done't have any data for this day
+                        if(!Utilies.isNetworkAvailable(getActivity())) {
+                            message = R.string.empty_scores_list_no_network;
+                        }
+
+                }
+                emptyTextView.setText(message);
+            }
+        }
+    }
 }
