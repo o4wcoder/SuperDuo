@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Football Scores</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -54,4 +53,7 @@
 
     <!-- Shared Preferences -->
     <string name="server_status_key" translatable="false">server-status</string>
+
+    <!-- Widget -->
+    <string name="title_widget_today">Today\'s Football Scores</string>
 </resources>

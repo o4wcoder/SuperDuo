@@ -46,7 +46,7 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
 
-        Log.e(TAG,"on PerformSync()");
+        Log.e(TAG,"in onPerformSync()");
         sDataManager = DataManager.get();
 
 
@@ -56,16 +56,20 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
             try {
                 mLeagueList = sDataManager.fetchLeagues();
                 Log.e(TAG, "league list size: " + mLeagueList.size());
-
+                Log.e(TAG,"Set Server status to OK");
                 Utilies.setServerStatus(getContext(),DBConstants.SERVER_OK);
             } catch (RetrofitError e) {
                 //ToDo: Need to handle 429 Too Many Requests
-                Log.e(TAG, "------- Got retrofit error in getting Leagues --------");
+                Log.e(TAG, "------- Got retrofit error in getting Leagues. Set server down --------");
+                Utilies.setServerStatus(getContext(),DBConstants.SERVER_DOWN);
                 Log.e(TAG, e.getMessage());
             }
         }
 
+        Log.e(TAG,"Server Status = " + Utilies.getServerStatus(getContext()));
+
         if(Utilies.getServerStatus(getContext()) == DBConstants.SERVER_OK) {
+            Log.e(TAG,"Get Fixtures");
             getFixtures("p3");
             getFixtures("n3");
         }

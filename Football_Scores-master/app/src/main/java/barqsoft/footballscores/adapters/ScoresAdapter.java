@@ -76,7 +76,7 @@ public class ScoresAdapter extends CursorAdapter
             }
         });
 
-
+        setContentDescription(view,cursor);
 
         mHolder.home_name.setText(cursor.getString(COL_HOME));
         mHolder.away_name.setText(cursor.getString(COL_AWAY));
@@ -132,4 +132,34 @@ public class ScoresAdapter extends CursorAdapter
         return shareIntent;
     }
 
+    private void setContentDescription(View view, Cursor cursor) {
+
+        String message = "";
+
+        if(cursor.getInt(COL_HOME_GOALS) == -1) {
+
+        }
+        else {
+
+            String strTeamScores = "";
+            if(cursor.getInt(COL_HOME_GOALS) == cursor.getInt(COL_AWAY_GOALS)) {
+                strTeamScores = cursor.getString(COL_HOME) + " tied " + cursor.getString(COL_AWAY) +
+                        cursor.getInt(COL_HOME_GOALS) + " to " + cursor.getInt(COL_AWAY_GOALS);
+            }
+            else if(cursor.getInt(COL_HOME_GOALS) > cursor.getInt(COL_AWAY_GOALS)) {
+                strTeamScores = cursor.getString(COL_HOME) + " over " + cursor.getString(COL_AWAY) +
+                        cursor.getInt(COL_HOME_GOALS) + " to " + cursor.getInt(COL_AWAY_GOALS);
+            }
+            else {
+                strTeamScores = cursor.getString(COL_AWAY) + " over " + cursor.getString(COL_HOME) +
+                        cursor.getInt(COL_AWAY_GOALS) + " to " + cursor.getInt(COL_HOME_GOALS);
+            }
+            message = cursor.getString(COL_LEAGUE_NAME) + " league. " + strTeamScores;
+        }
+
+        Log.e(TAG,"Content Desc: " + message);
+        view.setContentDescription(message);
+
+
+    }
 }

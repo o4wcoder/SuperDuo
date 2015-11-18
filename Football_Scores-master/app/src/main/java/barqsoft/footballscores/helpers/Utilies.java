@@ -113,6 +113,7 @@ public class Utilies
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor spe = sp.edit();
         spe.putInt(context.getString(R.string.pref_server_status_key), serverStatus);
+        spe.commit(); //Use commit since calling from background thread in syncAdapter
     }
     @SuppressWarnings("ResourceType")
     static public @DBConstants.ServerStatus

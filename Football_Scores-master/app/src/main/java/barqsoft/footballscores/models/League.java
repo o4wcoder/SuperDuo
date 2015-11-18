@@ -16,7 +16,8 @@ public class League {
     String mCaption;
 
     public String getCaption() {
-        return mCaption;
+
+        return mCaption.replace("2015/16","");
     }
 
     public SoccerSeasonLinks getLinks() {

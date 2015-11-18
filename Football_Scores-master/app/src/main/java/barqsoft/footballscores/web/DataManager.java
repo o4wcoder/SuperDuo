@@ -26,7 +26,7 @@ public class DataManager implements DBConstants {
     /*********************************************************************/
     private static final String TAG = DataManager.class.getSimpleName();
 
-    private static final String FOOTBALL_BASE_URL = "http://api.football-data.org/alpha/";
+   private static final String FOOTBALL_BASE_URL = "http://api.football-data.org/alpha/";
     private static final String FOOTBALL_HEADER_KEY = "X-Auth-Token";
 
 
