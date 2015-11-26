@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import barqsoft.footballscores.data.DBConstants;
-import barqsoft.footballscores.data.DatabaseContract;
+import barqsoft.footballscores.data.ScoresContract;
 
 /**
  * Created by Chris Hare on 10/27/2015.
@@ -61,16 +61,16 @@ public class Fixture implements DBConstants{
     public ContentValues getContentValues() {
 
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseContract.ScoresEntry.DATE_COL,getMatchDate());
-        cv.put(DatabaseContract.ScoresEntry.HOME_COL,mHomeTeam);
-        cv.put(DatabaseContract.ScoresEntry.AWAY_COL,mAwayTeam);
-        cv.put(DatabaseContract.ScoresEntry.HOME_GOALS_COL,mGoals.getHomeGoals());
-        cv.put(DatabaseContract.ScoresEntry.AWAY_GOALS_COL,mGoals.getAwayGoals());
-        cv.put(DatabaseContract.ScoresEntry.MATCH_DAY_COL,mMatchDay);
-        cv.put(DatabaseContract.ScoresEntry.TIME_COL,getTime());
-        cv.put(DatabaseContract.ScoresEntry.MATCH_ID_COL,getMatchId());
-        cv.put(DatabaseContract.ScoresEntry.LEAGUE_COL,getLeagueId());
-        cv.put(DatabaseContract.ScoresEntry.LEAGUE_NAME_COL,mLeague.getCaption());
+        cv.put(ScoresContract.ScoresEntry.DATE_COL,getMatchDate());
+        cv.put(ScoresContract.ScoresEntry.HOME_COL,mHomeTeam);
+        cv.put(ScoresContract.ScoresEntry.AWAY_COL,mAwayTeam);
+        cv.put(ScoresContract.ScoresEntry.HOME_GOALS_COL,mGoals.getHomeGoals());
+        cv.put(ScoresContract.ScoresEntry.AWAY_GOALS_COL,mGoals.getAwayGoals());
+        cv.put(ScoresContract.ScoresEntry.MATCH_DAY_COL,mMatchDay);
+        cv.put(ScoresContract.ScoresEntry.TIME_COL,getTime());
+        cv.put(ScoresContract.ScoresEntry.MATCH_ID_COL,getMatchId());
+        cv.put(ScoresContract.ScoresEntry.LEAGUE_COL,getLeagueId());
+        cv.put(ScoresContract.ScoresEntry.LEAGUE_NAME_COL,mLeague.getCaption());
 
         return cv;
     }

@@ -15,24 +15,25 @@ import android.widget.TextView;
 
 
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.helpers.Utilies;
 import barqsoft.footballscores.models.ViewHolder;
 
 /**
  * Created by yehya khaled on 2/26/2015.
  */
-public class ScoresAdapter extends CursorAdapter
+public class ScoresAdapter extends CursorAdapter implements DBConstants
 {
-    public static final int COL_DATE = 1;
-    public static final int COL_MATCHTIME = 2;
-    public static final int COL_HOME = 3;
-    public static final int COL_AWAY = 4;
-    public static final int COL_HOME_GOALS = 5;
-    public static final int COL_AWAY_GOALS = 6;
-    public static final int COL_ID = 7;
-    public static final int COL_MATCHDAY = 8;
-    public static final int COL_LEAGUE = 9;
-    public static final int COL_LEAGUE_NAME = 10;
+//    public static final int COL_DATE = 1;
+//    public static final int COL_MATCHTIME = 2;
+//    public static final int COL_HOME = 3;
+//    public static final int COL_AWAY = 4;
+//    public static final int COL_HOME_GOALS = 5;
+//    public static final int COL_AWAY_GOALS = 6;
+//    public static final int COL_ID = 7;
+//    public static final int COL_MATCHDAY = 8;
+//    public static final int COL_LEAGUE = 9;
+//    public static final int COL_LEAGUE_NAME = 10;
 
 
 
@@ -43,7 +44,7 @@ public class ScoresAdapter extends CursorAdapter
 
     public ScoresAdapter(Context context, Cursor cursor, int flags)
     {
-        super(context,cursor,flags);
+        super(context, cursor, flags);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class ScoresAdapter extends CursorAdapter
         Log.e(TAG, "In bindView()");
         final ViewHolder mHolder = (ViewHolder) view.getTag();
 
-        mHolder.toolbar.setTitle(cursor.getString(COL_LEAGUE_NAME));
+        mHolder.toolbar.setTitle(cursor.getString(INDEX_SCORES_LEAGUE_NAME));
 
         mHolder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 
@@ -76,19 +77,19 @@ public class ScoresAdapter extends CursorAdapter
             }
         });
 
-        setContentDescription(view,cursor);
+        view.setContentDescription(Utilies.getMatchContentDescription(cursor));
 
-        mHolder.home_name.setText(cursor.getString(COL_HOME));
-        mHolder.away_name.setText(cursor.getString(COL_AWAY));
-        mHolder.date.setText(cursor.getString(COL_MATCHTIME));
-        mHolder.score.setText(Utilies.getScores(cursor.getInt(COL_HOME_GOALS), cursor.getInt(COL_AWAY_GOALS)));
-        mHolder.match_id = cursor.getDouble(COL_ID);
+        mHolder.home_name.setText(cursor.getString(INDEX_SCORES_HOME));
+        mHolder.away_name.setText(cursor.getString(INDEX_SCORES_AWAY));
+        mHolder.time.setText(cursor.getString(INDEX_SCORES_TIME));
+        mHolder.score.setText(Utilies.getScores(cursor.getInt(INDEX_SCORES_HOME_GOALS), cursor.getInt(INDEX_SCORES_AWAY_GOALS)));
+        mHolder.match_id = cursor.getDouble(INDEX_SCORES_MATCH_ID);
         mHolder.home_crest.setImageResource(Utilies.getTeamCrestByTeamName(
-                cursor.getString(COL_HOME)));
+                cursor.getString(INDEX_SCORES_HOME)));
         mHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(
-                cursor.getString(COL_AWAY)
+                cursor.getString(INDEX_SCORES_AWAY)
         ));
-        Log.e(TAG,"Score: " + cursor.getInt(COL_HOME_GOALS) + " - " + cursor.getInt(COL_AWAY_GOALS));
+        //Log.e(TAG,"Score: " + cursor.getInt(COL_HOME_GOALS) + " - " + cursor.getInt(COL_AWAY_GOALS));
         Log.e(TAG, mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() + " id " + String.valueOf(mHolder.match_id));
         Log.e(TAG, String.valueOf(detail_match_id));
         LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
@@ -102,10 +103,10 @@ public class ScoresAdapter extends CursorAdapter
             container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT));
             TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
-            match_day.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY),
-                    cursor.getInt(COL_LEAGUE)));
+            match_day.setText(Utilies.getMatchDay(cursor.getInt(INDEX_SCORES_MATCH_DAY),
+                    cursor.getInt(INDEX_SCORES_LEAGUE)));
             TextView league = (TextView) v.findViewById(R.id.league_textview);
-            league.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
+            league.setText(Utilies.getLeague(cursor.getInt(INDEX_SCORES_LEAGUE)));
             Button share_button = (Button) v.findViewById(R.id.share_button);
             share_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,34 +133,5 @@ public class ScoresAdapter extends CursorAdapter
         return shareIntent;
     }
 
-    private void setContentDescription(View view, Cursor cursor) {
 
-        String message = "";
-
-        if(cursor.getInt(COL_HOME_GOALS) == -1) {
-
-        }
-        else {
-
-            String strTeamScores = "";
-            if(cursor.getInt(COL_HOME_GOALS) == cursor.getInt(COL_AWAY_GOALS)) {
-                strTeamScores = cursor.getString(COL_HOME) + " tied " + cursor.getString(COL_AWAY) +
-                        cursor.getInt(COL_HOME_GOALS) + " to " + cursor.getInt(COL_AWAY_GOALS);
-            }
-            else if(cursor.getInt(COL_HOME_GOALS) > cursor.getInt(COL_AWAY_GOALS)) {
-                strTeamScores = cursor.getString(COL_HOME) + " over " + cursor.getString(COL_AWAY) +
-                        cursor.getInt(COL_HOME_GOALS) + " to " + cursor.getInt(COL_AWAY_GOALS);
-            }
-            else {
-                strTeamScores = cursor.getString(COL_AWAY) + " over " + cursor.getString(COL_HOME) +
-                        cursor.getInt(COL_AWAY_GOALS) + " to " + cursor.getInt(COL_HOME_GOALS);
-            }
-            message = cursor.getString(COL_LEAGUE_NAME) + " league. " + strTeamScores;
-        }
-
-        Log.e(TAG,"Content Desc: " + message);
-        view.setContentDescription(message);
-
-
-    }
 }

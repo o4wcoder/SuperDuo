@@ -1,6 +1,5 @@
 package barqsoft.footballscores.fragments;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,14 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import barqsoft.footballscores.data.DBConstants;
-import barqsoft.footballscores.data.DatabaseContract;
+import barqsoft.footballscores.data.ScoresContract;
 import barqsoft.footballscores.activities.MainActivity;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.adapters.ScoresAdapter;
 import barqsoft.footballscores.helpers.Utilies;
 import barqsoft.footballscores.models.ViewHolder;
-import barqsoft.footballscores.service.ScoresFetchService;
-import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -83,7 +80,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
     {
-        return new CursorLoader(getActivity(), DatabaseContract.ScoresEntry.buildScoreWithDate(),
+        return new CursorLoader(getActivity(), ScoresContract.ScoresEntry.buildScoreWithDate(),
                 null,null,fragmentdate,null);
     }
 

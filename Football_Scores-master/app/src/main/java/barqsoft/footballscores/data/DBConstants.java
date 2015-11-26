@@ -51,4 +51,33 @@ public interface DBConstants {
     int SERVER_DOWN = 1;
     int SERVER_INVALID = 2;
     int SERVER_UNKNOWN = 3;
+
+//    String[] SCORES_COLUMNS = {
+//            ScoresContract.ScoresEntry._ID,
+//            ScoresContract.ScoresEntry.LEAGUE_COL,
+//            ScoresContract.ScoresEntry.LEAGUE_NAME_COL,
+//            ScoresContract.ScoresEntry.DATE_COL,
+//            ScoresContract.ScoresEntry.TIME_COL,
+//            ScoresContract.ScoresEntry.HOME_COL,
+//            ScoresContract.ScoresEntry.AWAY_COL,
+//            ScoresContract.ScoresEntry.HOME_GOALS_COL,
+//            ScoresContract.ScoresEntry.AWAY_GOALS_COL,
+//            ScoresContract.ScoresEntry.MATCH_ID_COL,
+//            ScoresContract.ScoresEntry.MATCH_DAY_COL
+//    };
+
+    int INDEX_SCORES_ID = 0;
+    int INDEX_SCORES_DATE = 1;
+    int INDEX_SCORES_TIME = 2;
+    int INDEX_SCORES_HOME = 3;
+    int INDEX_SCORES_AWAY = 4;
+    int INDEX_SCORES_HOME_GOALS = 5;
+    int INDEX_SCORES_AWAY_GOALS = 6;
+    int INDEX_SCORES_MATCH_ID = 7;
+    int INDEX_SCORES_MATCH_DAY = 8;
+    int INDEX_SCORES_LEAGUE = 9;
+    int INDEX_SCORES_LEAGUE_NAME = 10;
+
+
+
 }

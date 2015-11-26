@@ -27,7 +27,7 @@ import java.util.Vector;
 
 import barqsoft.footballscores.BuildConfig;
 import barqsoft.footballscores.data.DBConstants;
-import barqsoft.footballscores.data.DatabaseContract;
+import barqsoft.footballscores.data.ScoresContract;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.models.Fixture;
 import barqsoft.footballscores.web.DataManager;
@@ -95,7 +95,7 @@ public class ScoresFetchService extends IntentService implements DBConstants
         ContentValues[] values = new ContentValues[vectorValues.size()];
         vectorValues.toArray(values);
         inserted = getApplicationContext().getContentResolver().bulkInsert(
-                DatabaseContract.BASE_CONTENT_URI,values);
+                ScoresContract.BASE_CONTENT_URI,values);
 
 
         Log.e(TAG,"Succesfully Inserted : " + String.valueOf(inserted));
@@ -302,15 +302,15 @@ public class ScoresFetchService extends IntentService implements DBConstants
                     Away_goals = match_data.getJSONObject(RESULT).getString(AWAY_GOALS);
                     match_day = match_data.getString(MATCH_DAY);
                     ContentValues match_values = new ContentValues();
-                    match_values.put(DatabaseContract.ScoresEntry.MATCH_ID_COL,match_id);
-                    match_values.put(DatabaseContract.ScoresEntry.DATE_COL,mDate);
-                    match_values.put(DatabaseContract.ScoresEntry.TIME_COL,mTime);
-                    match_values.put(DatabaseContract.ScoresEntry.HOME_COL,Home);
-                    match_values.put(DatabaseContract.ScoresEntry.AWAY_COL,Away);
-                    match_values.put(DatabaseContract.ScoresEntry.HOME_GOALS_COL,Home_goals);
-                    match_values.put(DatabaseContract.ScoresEntry.AWAY_GOALS_COL,Away_goals);
-                    match_values.put(DatabaseContract.ScoresEntry.LEAGUE_COL,League);
-                    match_values.put(DatabaseContract.ScoresEntry.MATCH_DAY_COL,match_day);
+                    match_values.put(ScoresContract.ScoresEntry.MATCH_ID_COL,match_id);
+                    match_values.put(ScoresContract.ScoresEntry.DATE_COL,mDate);
+                    match_values.put(ScoresContract.ScoresEntry.TIME_COL,mTime);
+                    match_values.put(ScoresContract.ScoresEntry.HOME_COL,Home);
+                    match_values.put(ScoresContract.ScoresEntry.AWAY_COL,Away);
+                    match_values.put(ScoresContract.ScoresEntry.HOME_GOALS_COL,Home_goals);
+                    match_values.put(ScoresContract.ScoresEntry.AWAY_GOALS_COL,Away_goals);
+                    match_values.put(ScoresContract.ScoresEntry.LEAGUE_COL,League);
+                    match_values.put(ScoresContract.ScoresEntry.MATCH_DAY_COL,match_day);
                     //log spam
                     Log.v(TAG,League);
                     Log.v(TAG,match_id);
@@ -328,7 +328,7 @@ public class ScoresFetchService extends IntentService implements DBConstants
             ContentValues[] insert_data = new ContentValues[values.size()];
             values.toArray(insert_data);
             inserted_data = mContext.getContentResolver().bulkInsert(
-                    DatabaseContract.BASE_CONTENT_URI,insert_data);
+                    ScoresContract.BASE_CONTENT_URI,insert_data);
 
             Log.v(TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
         }

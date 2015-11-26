@@ -19,6 +19,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.MainActivity"
@@ -70,15 +71,21 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
+        <!-- Scores Widget -->
         <receiver android:name=".widget.ScoresWidgetProvider"
             android:label="@string/title_widget_today">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="barqsoft.footballscores.app.ACTION_DATA_UPDATED"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_today" />
         </receiver>
 
+        <service android:name=".widget.ScoresWidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 

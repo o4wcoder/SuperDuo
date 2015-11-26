@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -18,7 +19,7 @@ import java.util.Vector;
 
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.data.DBConstants;
-import barqsoft.footballscores.data.DatabaseContract;
+import barqsoft.footballscores.data.ScoresContract;
 import barqsoft.footballscores.helpers.Utilies;
 import barqsoft.footballscores.models.Fixture;
 import barqsoft.footballscores.models.League;
@@ -36,6 +37,8 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_INTERVAL = 30 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+
+    public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.app.ACTION_DATA_UPDATED";
 
     DataManager sDataManager;
     List<League> mLeagueList = null;
@@ -66,12 +69,14 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
 
-        Log.e(TAG,"Server Status = " + Utilies.getServerStatus(getContext()));
+        Log.e(TAG, "Server Status = " + Utilies.getServerStatus(getContext()));
 
         if(Utilies.getServerStatus(getContext()) == DBConstants.SERVER_OK) {
             Log.e(TAG,"Get Fixtures");
             getFixtures("p3");
             getFixtures("n3");
+
+            updateWidgets();
         }
 
     }
@@ -123,20 +128,30 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         int inserted = 0;
-        ContentValues[] values = new ContentValues[vectorValues.size()];
-        vectorValues.toArray(values);
-        inserted = getContext().getContentResolver().bulkInsert(
-                DatabaseContract.BASE_CONTENT_URI,values);
 
+        if(vectorValues.size() > 0) {
+            ContentValues[] values = new ContentValues[vectorValues.size()];
+            vectorValues.toArray(values);
+            inserted = getContext().getContentResolver().bulkInsert(
+                    ScoresContract.BASE_CONTENT_URI, values);
 
-        Log.e(TAG,"Succesfully Inserted : " + String.valueOf(inserted));
+            Log.e(TAG, "Succesfully Inserted : " + String.valueOf(inserted));
+        }
+    }
+
+    private void updateWidgets() {
+        Context context = getContext();
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
     }
     /**
      * Helper method to schedule the sync adapter periodic execution
      */
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
-        String authority = DatabaseContract.CONTENT_AUTHORITY;
+        String authority = ScoresContract.CONTENT_AUTHORITY;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
             SyncRequest request = new SyncRequest.Builder().
@@ -159,7 +174,7 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         ContentResolver.requestSync(getSyncAccount(context),
-                DatabaseContract.CONTENT_AUTHORITY, bundle);
+                ScoresContract.CONTENT_AUTHORITY, bundle);
     }
 
     /**
@@ -210,7 +225,7 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.
          */
-        ContentResolver.setSyncAutomatically(newAccount, DatabaseContract.CONTENT_AUTHORITY, true);
+        ContentResolver.setSyncAutomatically(newAccount, ScoresContract.CONTENT_AUTHORITY, true);
 
         /*
          * Finally, let's do a sync to get things started
