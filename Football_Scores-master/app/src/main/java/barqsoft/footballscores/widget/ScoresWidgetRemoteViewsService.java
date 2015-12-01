@@ -1,6 +1,7 @@
 package barqsoft.footballscores.widget;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.activities.MainActivity;
 import barqsoft.footballscores.data.DBConstants;
 import barqsoft.footballscores.data.ScoresContract;
 import barqsoft.footballscores.helpers.Utilies;
@@ -95,6 +97,10 @@ public class ScoresWidgetRemoteViewsService extends RemoteViewsService implement
                 String strScore = Utilies.getScores(data.getInt(INDEX_SCORES_HOME_GOALS),data.getInt(INDEX_SCORES_AWAY_GOALS));
                 views.setTextViewText(R.id.score_textview,strScore);
                 views.setTextViewText(R.id.time_textview, data.getString(INDEX_SCORES_TIME));
+
+                // Create an Intent to launch MainActivity
+                Intent fillIntent = new Intent();
+                views.setOnClickFillInIntent(R.id.widget_list_item, fillIntent);
 
                 //Set icons
                views.setImageViewResource(R.id.home_crest, Utilies.getTeamCrestByTeamName(

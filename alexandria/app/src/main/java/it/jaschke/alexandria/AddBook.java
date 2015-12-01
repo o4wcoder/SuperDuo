@@ -10,15 +10,20 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
@@ -26,7 +31,9 @@ import it.jaschke.alexandria.services.DownloadImage;
 
 
 public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
+    //private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
+    private static final String TAG = AddBook.class.getSimpleName();
+
     private EditText ean;
     private final int LOADER_ID = 1;
     private View rootView;
@@ -37,7 +44,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private String mScanFormat = "Format:";
     private String mScanContents = "Contents:";
 
-
+    Button scanButton;
 
     public AddBook(){
     }
@@ -96,12 +103,18 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 // Hint: Use a Try/Catch block to handle the Intent dispatch gracefully, if you
                 // are using an external app.
                 //when you're done, remove the toast below.
-                Context context = getActivity();
-                CharSequence text = "This button should let you scan a book for its barcode!";
-                int duration = Toast.LENGTH_SHORT;
+//                Context context = getActivity();
+//                CharSequence text = "This button should let you scan a book for its barcode!";
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                //Start up zxing Scanning
+                Log.e(TAG, "Start scann...");
+
+                IntentIntegrator.forSupportFragment(AddBook.this).initiateScan();;
+
 
             }
         });
@@ -130,6 +143,34 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         }
 
         return rootView;
+    }
+
+    private void scanBarCode() {
+
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        Log.e(TAG, "onActivityResult() Inside");
+        switch (requestCode) {
+            case IntentIntegrator.REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    // Parsing bar code reader result
+                    IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+                    if(scanResult != null) {
+                        String scanContent = scanResult.getContents();
+                        Log.e(TAG,"Got ISDN: " + scanContent);
+                    }
+                    else {
+                        Toast toast = Toast.makeText(getActivity(),"No scan data received!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+                break;
+        }
     }
 
     private void restartLoader(){
@@ -204,4 +245,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
     }
+
+
 }

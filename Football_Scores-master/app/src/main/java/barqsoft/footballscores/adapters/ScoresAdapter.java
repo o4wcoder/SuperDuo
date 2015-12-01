@@ -53,7 +53,7 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
         View mItem = LayoutInflater.from(context).inflate(R.layout.scores_list_item, parent, false);
         ViewHolder mHolder = new ViewHolder(mItem);
         mItem.setTag(mHolder);
-        Log.e(TAG, "new View inflated");
+      //  Log.e(TAG, "new View inflated");
 
 
         return mItem;
@@ -61,7 +61,7 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
-        Log.e(TAG, "In bindView()");
+       // Log.e(TAG, "In bindView()");
         final ViewHolder mHolder = (ViewHolder) view.getTag();
 
         mHolder.toolbar.setTitle(cursor.getString(INDEX_SCORES_LEAGUE_NAME));
@@ -90,8 +90,8 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
                 cursor.getString(INDEX_SCORES_AWAY)
         ));
         //Log.e(TAG,"Score: " + cursor.getInt(COL_HOME_GOALS) + " - " + cursor.getInt(COL_AWAY_GOALS));
-        Log.e(TAG, mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() + " id " + String.valueOf(mHolder.match_id));
-        Log.e(TAG, String.valueOf(detail_match_id));
+       // Log.e(TAG, mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() + " id " + String.valueOf(mHolder.match_id));
+        //Log.e(TAG, String.valueOf(detail_match_id));
         LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.detail_fragment, null);
@@ -120,7 +120,7 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
         }
         else
         {
-            Log.e(TAG,"Removing all views");
+          //  Log.e(TAG,"Removing all views");
             container.removeAllViews();
         }
 

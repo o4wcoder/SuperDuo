@@ -43,6 +43,7 @@ public interface DBConstants {
     //League Constants
     String LEAGUE_CAPTION = "caption";
 
+    //Server status Annotation
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({SERVER_OK, SERVER_DOWN, SERVER_INVALID, SERVER_UNKNOWN})
     public @interface ServerStatus {}
@@ -52,19 +53,6 @@ public interface DBConstants {
     int SERVER_INVALID = 2;
     int SERVER_UNKNOWN = 3;
 
-//    String[] SCORES_COLUMNS = {
-//            ScoresContract.ScoresEntry._ID,
-//            ScoresContract.ScoresEntry.LEAGUE_COL,
-//            ScoresContract.ScoresEntry.LEAGUE_NAME_COL,
-//            ScoresContract.ScoresEntry.DATE_COL,
-//            ScoresContract.ScoresEntry.TIME_COL,
-//            ScoresContract.ScoresEntry.HOME_COL,
-//            ScoresContract.ScoresEntry.AWAY_COL,
-//            ScoresContract.ScoresEntry.HOME_GOALS_COL,
-//            ScoresContract.ScoresEntry.AWAY_GOALS_COL,
-//            ScoresContract.ScoresEntry.MATCH_ID_COL,
-//            ScoresContract.ScoresEntry.MATCH_DAY_COL
-//    };
 
     int INDEX_SCORES_ID = 0;
     int INDEX_SCORES_DATE = 1;

@@ -110,12 +110,23 @@ public class Utilies implements DBConstants
                 activeNetwork.isConnectedOrConnecting();
     }
 
+    /**
+     * Set the status for the Football scores server
+     * @param context Calling context
+     * @param serverStatus Status to be set
+     */
     static public void setServerStatus(Context context,@DBConstants.ServerStatus int serverStatus) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor spe = sp.edit();
         spe.putInt(context.getString(R.string.pref_server_status_key), serverStatus);
         spe.commit(); //Use commit since calling from background thread in syncAdapter
     }
+
+    /**
+     * Get the status of the Footbal server stored in Shared Preferences
+     * @param context
+     * @return
+     */
     @SuppressWarnings("ResourceType")
     static public @DBConstants.ServerStatus
     int getServerStatus(Context context) {
@@ -129,6 +140,12 @@ public class Utilies implements DBConstants
         spe.putInt(context.getString(R.string.pref_server_status_key),DBConstants.SERVER_UNKNOWN);
     }
 
+    /**
+     * Put together the Conent Description for the selected match. This is used when in Talk Back
+     * mode
+     * @param cursor Data of the current match
+     * @return String of the content description of the match.
+     */
     public static String getMatchContentDescription(Cursor cursor) {
 
         String message = "";

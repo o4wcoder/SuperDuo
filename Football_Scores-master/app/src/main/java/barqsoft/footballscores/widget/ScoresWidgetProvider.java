@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -57,6 +58,11 @@ public class ScoresWidgetProvider extends AppWidgetProvider {
                 setRemoteAdapterV11(context, views);
             }
 
+            Intent clickIntent = new Intent(context,MainActivity.class);
+            PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
+                    .addNextIntentWithParentStack(clickIntent)
+                    .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setPendingIntentTemplate(R.id.widget_list,clickPendingIntentTemplate);
             views.setEmptyView(R.id.widget_list,R.id.widget_empty);
             appWidgetManager.updateAppWidget(appWidgetId,views);
         }
