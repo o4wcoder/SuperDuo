@@ -86,11 +86,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                     return;
                 }
                 //Once we have an ISBN, start a book intent
-                Intent bookIntent = new Intent(getActivity(), BookService.class);
-                bookIntent.putExtra(BookService.EAN, ean);
-                bookIntent.setAction(BookService.FETCH_BOOK);
-                getActivity().startService(bookIntent);
-                AddBook.this.restartLoader();
+                fetchBookDetails(ean);
+
             }
         });
 
@@ -145,9 +142,13 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         return rootView;
     }
 
-    private void scanBarCode() {
+    private void fetchBookDetails(String isbn) {
 
-
+        Intent bookIntent = new Intent(getActivity(), BookService.class);
+        bookIntent.putExtra(BookService.EAN, isbn);
+        bookIntent.setAction(BookService.FETCH_BOOK);
+        getActivity().startService(bookIntent);
+        AddBook.this.restartLoader();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -163,6 +164,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                     if(scanResult != null) {
                         String scanContent = scanResult.getContents();
                         Log.e(TAG,"Got ISDN: " + scanContent);
+
+                        fetchBookDetails(scanContent);
                     }
                     else {
                         Toast toast = Toast.makeText(getActivity(),"No scan data received!", Toast.LENGTH_SHORT);

@@ -25,6 +25,11 @@
     <string name="back_button">go back</string>
     <string name="share_text">A must read book: </string>
 
+    <!-- Error Toast Strings -->
+    <string name="error_no_network"> Could not fetch book details. Network not available.</string>
+    <string name="error_server_down">Could not fetch book details. Server is not responding.</string>
+    <string name="error_server_invalid">Could not fetch book details. Server is not returning valid data.</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="about_text">This application gets book information from a Google API. All titles, cover images, and author information come from there.
     The original version of this app was built by Sascha Jaschke, and a modified version is given to students in the Udacity Android Nanodegree program. </string>
