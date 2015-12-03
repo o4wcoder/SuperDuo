@@ -141,18 +141,18 @@ public class Utilies implements DBConstants
     }
 
     /**
-     * Put together the Conent Description for the selected match. This is used when in Talk Back
+     * Put together the Content Description for the selected match. This is used when in Talk Back
      * mode
      * @param cursor Data of the current match
      * @return String of the content description of the match.
      */
-    public static String getMatchContentDescription(Cursor cursor) {
+    public static String getMatchContentDescription(Context context, Cursor cursor) {
 
         String message = "";
 
         if(cursor.getInt(INDEX_SCORES_HOME_GOALS) == -1) {
            //Message for when the match has not started
-            message = cursor.getString(INDEX_SCORES_LEAGUE_NAME) + " league. " +
+            message = cursor.getString(INDEX_SCORES_LEAGUE_NAME) + context.getString(R.string.content_desc_league) +
                     cursor.getString(INDEX_SCORES_HOME) + " versus " + cursor.getString(INDEX_SCORES_AWAY) +
                     " match starts at " + cursor.getString(INDEX_SCORES_TIME);
         }

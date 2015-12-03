@@ -168,7 +168,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                         fetchBookDetails(scanContent);
                     }
                     else {
-                        Toast toast = Toast.makeText(getActivity(),"No scan data received!", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getActivity(),getString(R.string.error_no_scan_data), Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
@@ -212,9 +212,11 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         ((TextView) rootView.findViewById(R.id.bookSubTitle)).setText(bookSubTitle);
 
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
-        String[] authorsArr = authors.split(",");
-        ((TextView) rootView.findViewById(R.id.authors)).setLines(authorsArr.length);
-        ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",","\n"));
+        if(authors != null){
+            String[] authorsArr = authors.split(",");
+            ((TextView) rootView.findViewById(R.id.authors)).setLines(authorsArr.length);
+            ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",", "\n"));
+        }
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if(Patterns.WEB_URL.matcher(imgUrl).matches()){
             new DownloadImage((ImageView) rootView.findViewById(R.id.bookCover)).execute(imgUrl);

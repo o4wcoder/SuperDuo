@@ -56,4 +56,12 @@
 
     <!-- Widget -->
     <string name="title_widget_today">Today\'s Football Scores</string>
+
+    <!-- Bundle keys -->
+    <string name="key_pager_current" translatable="false">Pager_Current</string>
+    <string name="key_selected_match" translatable="false">Selected_match</string>
+    <string name="key_my_main" translatable="false">my_main</string>
+
+    <!-- Content Descriptions -->
+    <string name="content_desc_league">league</string>
 </resources>

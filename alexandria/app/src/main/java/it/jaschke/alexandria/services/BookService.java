@@ -147,6 +147,7 @@ public class BookService extends IntentService {
             }
 
             if (buffer.length() == 0) {
+                //No data returned. Server must be down
                 setServerErrorToast(getString(R.string.error_server_down));
                 return;
             }
@@ -154,9 +155,11 @@ public class BookService extends IntentService {
             getBookFromJson(bookJsonString, ean);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Network Error ", e);
+            //Exception with contacting the server. Server must be down
             setServerErrorToast(getString(R.string.error_server_down));
         } catch (JSONException e) {
             Log.e(LOG_TAG,"JSON Exception");
+            //Exception in JSON data from server. Data is invalid
             setServerErrorToast(getString(R.string.error_server_invalid));
         } finally {
             if (urlConnection != null) {

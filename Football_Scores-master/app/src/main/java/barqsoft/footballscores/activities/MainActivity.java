@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity
         Log.v(save_tag,"will save");
         Log.v(save_tag,"fragment: "+String.valueOf(my_main.mPagerHandler.getCurrentItem()));
         Log.v(save_tag,"selected id: "+selected_match_id);
-        outState.putInt("Pager_Current",my_main.mPagerHandler.getCurrentItem());
-        outState.putInt("Selected_match",selected_match_id);
-        getSupportFragmentManager().putFragment(outState,"my_main",my_main);
+        outState.putInt(getString(R.string.key_pager_current), my_main.mPagerHandler.getCurrentItem());
+        outState.putInt(getString(R.string.key_selected_match),selected_match_id);
+        getSupportFragmentManager().putFragment(outState, getString(R.string.key_my_main),my_main);
         super.onSaveInstanceState(outState);
     }
 
@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity
         Log.v(save_tag,"will retrive");
         Log.v(save_tag,"fragment: "+String.valueOf(savedInstanceState.getInt("Pager_Current")));
         Log.v(save_tag,"selected id: "+savedInstanceState.getInt("Selected_match"));
-        current_fragment = savedInstanceState.getInt("Pager_Current");
-        selected_match_id = savedInstanceState.getInt("Selected_match");
-        my_main = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState,"my_main");
+        current_fragment = savedInstanceState.getInt(getString(R.string.key_pager_current));
+        selected_match_id = savedInstanceState.getInt(getString(R.string.key_selected_match));
+        my_main = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState,getString(R.string.key_my_main));
         super.onRestoreInstanceState(savedInstanceState);
     }
 }
