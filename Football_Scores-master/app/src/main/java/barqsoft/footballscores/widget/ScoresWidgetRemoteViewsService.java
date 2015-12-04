@@ -110,7 +110,7 @@ public class ScoresWidgetRemoteViewsService extends RemoteViewsService implement
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
                 {
-                    views.setContentDescription(R.id.widget_list_item, Utilies.getMatchContentDescription(data));
+                    views.setContentDescription(R.id.widget_list_item, Utilies.getMatchContentDescription(getApplicationContext(),data));
                 }
                 return views;
             }

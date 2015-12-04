@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.IntDef;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -55,12 +57,15 @@ public class BookService extends IntentService {
 //    public static final int SERVER_INVALID = 2;
 //    public static final int SERVER_UNKNOWN = 3;
 
+    String mToastMsg;
+    
     public BookService() {
         super("Alexandria");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.e(LOG_TAG,"In on handleIntent()");
         if (intent != null) {
             final String action = intent.getAction();
             if (FETCH_BOOK.equals(action)) {
@@ -92,10 +97,12 @@ public class BookService extends IntentService {
         if (ean.length() != 13) {
             return;
         }
-
+        Log.e(LOG_TAG,"In fetchBook()");
         //Check network availability
         if (!(isNetworkAvailable(this))) {
-            setServerErrorToast(getString(R.string.error_no_network));
+            Log.e(LOG_TAG,"Not network available");
+            mToastMsg = getString(R.string.error_no_network);
+            setServerErrorToast();
             return;
         }
         Cursor bookEntry = getContentResolver().query(
@@ -148,7 +155,8 @@ public class BookService extends IntentService {
 
             if (buffer.length() == 0) {
                 //No data returned. Server must be down
-                setServerErrorToast(getString(R.string.error_server_down));
+                mToastMsg = getString(R.string.error_server_down);
+                setServerErrorToast();
                 return;
             }
             bookJsonString = buffer.toString();
@@ -156,11 +164,13 @@ public class BookService extends IntentService {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Network Error ", e);
             //Exception with contacting the server. Server must be down
-            setServerErrorToast(getString(R.string.error_server_down));
+            mToastMsg = getString(R.string.error_server_down);
+            setServerErrorToast();
         } catch (JSONException e) {
             Log.e(LOG_TAG,"JSON Exception");
             //Exception in JSON data from server. Data is invalid
-            setServerErrorToast(getString(R.string.error_server_invalid));
+            mToastMsg = getString(R.string.error_server_invalid);
+            setServerErrorToast();
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -290,11 +300,18 @@ public class BookService extends IntentService {
 
     /**
      * Display Error Toast for fetching book data from the server
-     * @param msg Error message to display
      */
-    private void setServerErrorToast(String msg) {
+    private void setServerErrorToast() {
 
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+
+            @Override
+            public void run() {
+                Log.e(LOG_TAG,"Send error toast");
+                Toast toast = Toast.makeText(getApplicationContext(), mToastMsg, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
     }
 }

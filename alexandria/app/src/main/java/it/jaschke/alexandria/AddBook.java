@@ -76,17 +76,17 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
             @Override
             public void afterTextChanged(Editable s) {
-                String ean =s.toString();
+                String str =s.toString();
                 //catch isbn10 numbers
-                if(ean.length()==10 && !ean.startsWith("978")){
-                    ean="978"+ean;
+                if(str.length()==10 && !str.startsWith("978")){
+                    str="978"+ean;
                 }
-                if(ean.length()<13){
+                if(str.length()<13){
                     clearFields();
                     return;
                 }
                 //Once we have an ISBN, start a book intent
-                fetchBookDetails(ean);
+                fetchBookDetails(str);
 
             }
         });
@@ -110,6 +110,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 //Start up zxing Scanning
                 Log.e(TAG, "Start scann...");
 
+                //Call ZXing barcode scanner
                 IntentIntegrator.forSupportFragment(AddBook.this).initiateScan();;
 
 
@@ -142,6 +143,10 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         return rootView;
     }
 
+    /**
+     * Call Intent service to get the book details that was scanned or enterd
+     * @param isbn ISBN number to search
+     */
     private void fetchBookDetails(String isbn) {
 
         Intent bookIntent = new Intent(getActivity(), BookService.class);
@@ -150,11 +155,14 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         getActivity().startService(bookIntent);
         AddBook.this.restartLoader();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
         Log.e(TAG, "onActivityResult() Inside");
+
+        //ZXing Barcode scanner results get sent here
         switch (requestCode) {
             case IntentIntegrator.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
@@ -164,7 +172,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                     if(scanResult != null) {
                         String scanContent = scanResult.getContents();
                         Log.e(TAG,"Got ISDN: " + scanContent);
-
+                        ean.setText(scanContent);
                         fetchBookDetails(scanContent);
                     }
                     else {
@@ -182,7 +190,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
     @Override
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if(ean.getText().length()==0){
+
+        if(ean.getText().length() == 0) {
             return null;
         }
         String eanStr= ean.getText().toString();

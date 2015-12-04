@@ -77,7 +77,7 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
             }
         });
 
-        view.setContentDescription(Utilies.getMatchContentDescription(cursor));
+        view.setContentDescription(Utilies.getMatchContentDescription(context,cursor));
 
         mHolder.home_name.setText(cursor.getString(INDEX_SCORES_HOME));
         mHolder.away_name.setText(cursor.getString(INDEX_SCORES_AWAY));

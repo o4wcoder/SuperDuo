@@ -64,4 +64,9 @@
 
     <!-- Content Descriptions -->
     <string name="content_desc_league">league</string>
+    <string name="content_desc_versus">versus</string>
+    <string name="content_desc_match_starts_at">match starts at</string>
+    <string name="content_desc_tied">tied</string>
+    <string name="content_desc_to">to</string>
+    <string name="content_desc_over">over</string>
 </resources>

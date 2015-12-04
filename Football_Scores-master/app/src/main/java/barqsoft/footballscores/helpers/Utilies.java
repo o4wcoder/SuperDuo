@@ -153,25 +153,25 @@ public class Utilies implements DBConstants
         if(cursor.getInt(INDEX_SCORES_HOME_GOALS) == -1) {
            //Message for when the match has not started
             message = cursor.getString(INDEX_SCORES_LEAGUE_NAME) + context.getString(R.string.content_desc_league) +
-                    cursor.getString(INDEX_SCORES_HOME) + " versus " + cursor.getString(INDEX_SCORES_AWAY) +
-                    " match starts at " + cursor.getString(INDEX_SCORES_TIME);
+                    cursor.getString(INDEX_SCORES_HOME) + context.getString(R.string.content_desc_versus) + cursor.getString(INDEX_SCORES_AWAY) +
+                    context.getString(R.string.content_desc_match_starts_at) + cursor.getString(INDEX_SCORES_TIME);
         }
         else {
 
             String strTeamScores = "";
             if(cursor.getInt(INDEX_SCORES_HOME_GOALS) == cursor.getInt(INDEX_SCORES_AWAY_GOALS)) {
-                strTeamScores = cursor.getString(INDEX_SCORES_HOME) + " tied " + cursor.getString(INDEX_SCORES_AWAY) +
-                        cursor.getInt(INDEX_SCORES_HOME_GOALS) + " to " + cursor.getInt(INDEX_SCORES_AWAY_GOALS);
+                strTeamScores = cursor.getString(INDEX_SCORES_HOME) + context.getString(R.string.content_desc_tied) + cursor.getString(INDEX_SCORES_AWAY) +
+                        cursor.getInt(INDEX_SCORES_HOME_GOALS) + context.getString(R.string.content_desc_to) + cursor.getInt(INDEX_SCORES_AWAY_GOALS);
             }
             else if(cursor.getInt(INDEX_SCORES_HOME_GOALS) > cursor.getInt(INDEX_SCORES_AWAY_GOALS)) {
-                strTeamScores = cursor.getString(INDEX_SCORES_HOME) + " over " + cursor.getString(INDEX_SCORES_AWAY) +
-                        cursor.getInt(INDEX_SCORES_HOME_GOALS) + " to " + cursor.getInt(INDEX_SCORES_AWAY_GOALS);
+                strTeamScores = cursor.getString(INDEX_SCORES_HOME) + context.getString(R.string.content_desc_over) + cursor.getString(INDEX_SCORES_AWAY) +
+                        cursor.getInt(INDEX_SCORES_HOME_GOALS) + context.getString(R.string.content_desc_to) + cursor.getInt(INDEX_SCORES_AWAY_GOALS);
             }
             else {
-                strTeamScores = cursor.getString(INDEX_SCORES_AWAY) + " over " + cursor.getString(INDEX_SCORES_HOME) +
-                        cursor.getInt(INDEX_SCORES_AWAY_GOALS) + " to " + cursor.getInt(INDEX_SCORES_HOME_GOALS);
+                strTeamScores = cursor.getString(INDEX_SCORES_AWAY) + context.getString(R.string.content_desc_over) + cursor.getString(INDEX_SCORES_HOME) +
+                        cursor.getInt(INDEX_SCORES_AWAY_GOALS) + context.getString(R.string.content_desc_to) + cursor.getInt(INDEX_SCORES_HOME_GOALS);
             }
-            message = cursor.getString(INDEX_SCORES_LEAGUE_NAME) + " league. " + strTeamScores;
+            message = cursor.getString(INDEX_SCORES_LEAGUE_NAME) + context.getString(R.string.content_desc_league) + strTeamScores;
         }
 
         return message;
