@@ -65,18 +65,23 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
         final ViewHolder mHolder = (ViewHolder) view.getTag();
 
         mHolder.toolbar.setTitle(cursor.getString(INDEX_SCORES_LEAGUE_NAME));
+        mHolder.toolbar.setSubtitle(Utilies.getMatchDay(cursor.getInt(INDEX_SCORES_MATCH_DAY),
+                cursor.getInt(INDEX_SCORES_LEAGUE)));
 
-        mHolder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                mHolder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Log.e(TAG, "Cicked Share");
-                context.startActivity(createShareForecastIntent(mHolder.home_name.getText() + " "
-                        + mHolder.score.getText() + " " + mHolder.away_name.getText() + " "));
-                return false;
-            }
-        });
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        Log.e(TAG, "Cicked Share");
+                        context.startActivity(createShareForecastIntent(mHolder.home_name.getText() + " "
+                                + mHolder.score.getText() + " " + mHolder.away_name.getText() + " "));
+                        return false;
+                    }
+                });
 
+        //Set the content description for the entire match. A description of the match will be
+        //heard with all the details instead of having each component of the CardView having
+        //a separate description.
         view.setContentDescription(Utilies.getMatchContentDescription(context,cursor));
 
         mHolder.home_name.setText(cursor.getString(INDEX_SCORES_HOME));
@@ -91,38 +96,39 @@ public class ScoresAdapter extends CursorAdapter implements DBConstants
         ));
         //Log.e(TAG,"Score: " + cursor.getInt(COL_HOME_GOALS) + " - " + cursor.getInt(COL_AWAY_GOALS));
        // Log.e(TAG, mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() + " id " + String.valueOf(mHolder.match_id));
-        //Log.e(TAG, String.valueOf(detail_match_id));
-        LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = vi.inflate(R.layout.detail_fragment, null);
-        ViewGroup container = (ViewGroup) view.findViewById(R.id.details_fragment_container);
-        if(mHolder.match_id == detail_match_id)
-        {
-            Log.v(TAG,"will insert extraView");
-
-            container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , ViewGroup.LayoutParams.MATCH_PARENT));
-            TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
-            match_day.setText(Utilies.getMatchDay(cursor.getInt(INDEX_SCORES_MATCH_DAY),
-                    cursor.getInt(INDEX_SCORES_LEAGUE)));
-            TextView league = (TextView) v.findViewById(R.id.league_textview);
-            league.setText(Utilies.getLeague(cursor.getInt(INDEX_SCORES_LEAGUE)));
-            Button share_button = (Button) v.findViewById(R.id.share_button);
-            share_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    //add Share Action
-                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText()+" "
-                    +mHolder.score.getText()+" "+mHolder.away_name.getText() + " "));
-                }
-            });
-        }
-        else
-        {
-          //  Log.e(TAG,"Removing all views");
-            container.removeAllViews();
-        }
+        //Log.e(TAG, String.valueOf(match_id));
+//        LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
+//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View v = vi.inflate(R.layout.detail_fragment, null);
+//        ViewGroup container = (ViewGroup) view.findViewById(R.id.details_fragment_container);
+//        Log.e(TAG,"Match ID: " + mHolder.match_id + " Detail Match ID: " + detail_match_id);
+//        if(mHolder.match_id == detail_match_id)
+//        {
+//            Log.v(TAG,"will insert extraView");
+//
+//            container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+//                    , ViewGroup.LayoutParams.MATCH_PARENT));
+//            TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
+//            match_day.setText(Utilies.getMatchDay(cursor.getInt(INDEX_SCORES_MATCH_DAY),
+//                    cursor.getInt(INDEX_SCORES_LEAGUE)));
+//            TextView league = (TextView) v.findViewById(R.id.league_textview);
+//            league.setText(Utilies.getLeague(cursor.getInt(INDEX_SCORES_LEAGUE)));
+//            Button share_button = (Button) v.findViewById(R.id.share_button);
+//            share_button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v)
+//                {
+//                    //add Share Action
+//                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText()+" "
+//                    +mHolder.score.getText()+" "+mHolder.away_name.getText() + " "));
+//                }
+//            });
+//        }
+//        else
+//        {
+//          //  Log.e(TAG,"Removing all views");
+//            container.removeAllViews();
+//        }
 
     }
     public Intent createShareForecastIntent(String ShareText) {
