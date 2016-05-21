@@ -12,10 +12,12 @@ An app that displays the current and past European Football scores. It also has 
 
 <b> App Updates </b>
 * Switch using a Service to pull scores from REST/JSON API and use a SyncAdapter to periodically check for the scores updates. 
+* Use Retrofit API to consume the REST/JSON Footbal Scores data.
 * Add a widget to show updated scores for today
 * Clean up UI to make it follow Material Design
 * Add Content Descriptions
 * Handle network errors 
+* 
 
 <b>Phone Images</b><br>
 <a href="<a href="http://s70.photobucket.com/user/chare37/media/57a7895d-0a05-476d-a52b-3f717927a21c_zpsfxbvrqcv.png.html" target="_blank"><img src="http://i70.photobucket.com/albums/i102/chare37/57a7895d-0a05-476d-a52b-3f717927a21c_zpsfxbvrqcv.png" border="0" alt=" photo 57a7895d-0a05-476d-a52b-3f717927a21c_zpsfxbvrqcv.png"/></a>
