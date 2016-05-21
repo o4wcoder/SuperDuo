@@ -17,7 +17,7 @@ An app that displays the current and past European Football scores. It also has 
 * Add Content Descriptions
 * Handle network errors 
 
-<b>Phone Images </b>
+<b>Phone Images</b><br>
 <a href="<a href="http://s70.photobucket.com/user/chare37/media/57a7895d-0a05-476d-a52b-3f717927a21c_zpsfxbvrqcv.png.html" target="_blank"><img src="http://i70.photobucket.com/albums/i102/chare37/57a7895d-0a05-476d-a52b-3f717927a21c_zpsfxbvrqcv.png" border="0" alt=" photo 57a7895d-0a05-476d-a52b-3f717927a21c_zpsfxbvrqcv.png"/></a>
 
 <b>Alexandria</b><br>
